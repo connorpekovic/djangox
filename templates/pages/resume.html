@@ -1,0 +1,32 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}Resume page{% endblock %}
+
+{% block content %}
+
+<!-- Title formating-->
+<div class="container">
+    <div class="row">
+
+        <div class="col">
+        </div>
+
+        <div class="col-8 text-center">
+            <h1>Connor's Resume </h1>
+        </div>
+
+        <div class="col">
+            <a href="{% static 'images/Resume-Connor-Pekovic.png' %}" download="Resume-Connor-Pekovic.pdf">
+                <button type="button" class="btn btn-success" >Download</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- The Resume itself -->
+<image src="{% static 'images/Resume2021_v2.png' %}"
+    style="width: 100%; height: auto;">
+
+{% endblock content %}
+
