@@ -1,0 +1,16 @@
+{% extends 'pages/home.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Home page{% endblock title %}
+
+{% block content %}
+
+<h3 style="text-align: center;">Participate in community decesion making with the Normal Organization</h3>
+
+    <form action='.' method='POST'>
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+
+{% endblock content %}
