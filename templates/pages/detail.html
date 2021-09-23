@@ -1,0 +1,37 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}Detail page{% endblock title %}
+
+{% block content %}
+
+<h3 style="text-align: center;">View Results</h3>
+
+<table>
+    <tr>
+        <th>Social Safety Net</th>
+        <th>Nationalize Healthcare</th>
+        <th>Climate Responce</th>
+        <th>Urban Sprall</th>
+        <th>Globalization</th>
+        <th>Created At</th>
+        <th>Updated At</th> 
+        <th>Created By</th>
+    </tr>
+    {% for responce in responce_list %}
+    <tr>
+        <td>{{ responce.Stregthen_social_safety_nets}}</td>
+        <td>{{ responce.Nationalize_healthcare}}</td>
+        <td>{{ responce.Climate_responce}}</td>
+        <td>{{ responce.Should_we_limit_urban_sprall}}</td>
+        <td>{{ responce.Do_you_support_or_oppose_globalization}}</td>
+        <td>{{ responce.created_at}}</td>
+        <td>{{ responce.updated_at}}</td>
+        <td>{{ responce.created_by}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+
+{% endblock content %}

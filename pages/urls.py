@@ -1,9 +1,12 @@
 from django.urls import path
 
-from .views import HomePageView, AboutPageView, VoteView
+from .views import HomePageView, AboutPageView, VoteView, DetailView, UpdateVoteView
 
 urlpatterns = [
-    path('home/', HomePageView.as_view(), name='home'),
+    path('', HomePageView.as_view(), name='home'),
     path('about/', AboutPageView.as_view(), name='about'),
-    path('', VoteView.as_view(), name='vote'),
+    path('detail/', DetailView.as_view(), name='read'),
+    path('vote/', VoteView.as_view(), name='create'),
+    path('update/<int:pk>/', UpdateVoteView.as_view(), name='update'),
+    path('delete/', UpdateVoteView.as_view(), name='delete'),
 ]
