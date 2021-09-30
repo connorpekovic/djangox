@@ -5,7 +5,9 @@ from django.views.generic import edit
 
 # User ID needs to be UUID
 class CustomUser(AbstractUser):
-    pass
+    id = models.UUIDField(primary_key=True,
+                          default=uuid.uuid4,
+                          editable=False)
 
     def __str__(self):
         return self.email
