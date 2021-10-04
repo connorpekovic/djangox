@@ -7,6 +7,6 @@ urlpatterns = [
     path('about/', AboutPageView.as_view(), name='about'),
     path('detail/', DetailView.as_view(), name='read'),
     path('vote/', VoteView.as_view(), name='create'),
-    path('update/<int:pk>/', UpdateVoteView.as_view(), name='update'),
+    path('update/<str:pk>/', UpdateVoteView.as_view(), name='update'),
     path('delete/', UpdateVoteView.as_view(), name='delete'),
 ]
