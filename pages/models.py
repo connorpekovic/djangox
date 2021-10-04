@@ -42,9 +42,9 @@ class Response(models.Model):
         primary_key=True,
         default=uuid.uuid4,
         editable=False)
-    created_by = models.ForeignKey(
-        get_user_model(),
-        on_delete=models.CASCADE)
+    created_by = models.OneToOneField(
+        CustomUser,
+        models.CASCADE)
     Stregthen_social_safety_nets = models.TextField(choices=SOCIAL_SAFETY_NET)
     Nationalize_healthcare = models.TextField(choices=NATIONALIZE_HEALTHCARE)
     Climate_responce = models.TextField(choices=CLIMATE_RESPONCE)

@@ -1,11 +1,19 @@
+from uuid import UUID
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
+import uuid
+from django.db import models
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser

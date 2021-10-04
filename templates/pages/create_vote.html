@@ -6,11 +6,22 @@
 
 {% block content %}
 
-<h3 style="text-align: center;">Participate in community decesion making with the Normal Organization</h3>
+<h1 style="text-align: center;">Participate in community decesion making with the Normal Organization</h1>
+
+{% if user.is_authenticated %}
 
     <form action='.' method='POST'>
         {% csrf_token %}
         {% crispy form %}
     </form>
+
+{% else %}
+
+<br><br><br>
+    <h3 style="text-align: center;">Please simply create an account to cast your opinions. </h3>
+
+{% endif %}
+
+
 
 {% endblock content %}
