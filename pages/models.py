@@ -38,13 +38,15 @@ class Response(models.Model):
         ('No', 'No. We need to focus on issued at home. Things will work out better in the end.'),
     )
 
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False)
-    created_by = models.OneToOneField(
+    # id = models.UUIDField(
+    #     primary_key=True,
+    #     default=uuid.uuid4,
+    #     editable=False)
+    created_by = models.ForeignKey(
         CustomUser,
-        models.CASCADE)
+        primary_key=True,
+        unique=True,
+        on_delete = models.CASCADE)
     Stregthen_social_safety_nets = models.TextField(choices=SOCIAL_SAFETY_NET)
     Nationalize_healthcare = models.TextField(choices=NATIONALIZE_HEALTHCARE)
     Climate_responce = models.TextField(choices=CLIMATE_RESPONCE)
