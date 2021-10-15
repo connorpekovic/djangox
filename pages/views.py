@@ -25,8 +25,8 @@ class AboutPageView(TemplateView):
     template_name = 'pages/home.html'
 
 
-class NoVoteView(TemplateView):
-    template_name = 'pages/home.html'
+class UserAlreadyVotedView(TemplateView):
+    template_name = 'pages/vote_has_been_counted.html'
 
 
 ##########
@@ -62,7 +62,7 @@ class NewPostView(View):
         #why they cant cast two responces
         PrevResponse = Response.objects.filter(created_by=self.request.user)
         if PrevResponse.exists():
-            return redirect('about')
+            return redirect('votecasted')
 
         return self.render(request)
 
