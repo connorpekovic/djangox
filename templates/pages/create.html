@@ -2,15 +2,21 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Update page{% endblock title %}
+{% block title %}Home page{% endblock title %}
 
 {% block content %}
 
-<h3 style="text-align: center;">Update your decesion.</h3>
+<h1 style="text-align: center;">Participate in community decesion making with the Normal Organization</h1>
+
+{% if user.is_authenticated %}
 
     <form action='.' method='POST'>
         {% csrf_token %}
         {% crispy form %}
     </form>
+
+{% endif %}
+
+
 
 {% endblock content %}

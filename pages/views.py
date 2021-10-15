@@ -9,24 +9,20 @@ from django.utils import timezone
 
 # Table of Contents
 #   Static Pages
-#   Create 
-#   Read
-#   Update
-#   Delete
+#   Create views
+#   Read views
+#   Update views
+#   Delete views
 
 ################
-# Static Pages #
+# Static views #
 ################
 class HomePageView(TemplateView):
     template_name = 'pages/home.html'
 
 
-class AboutPageView(TemplateView):
-    template_name = 'pages/home.html'
-
-
 class UserAlreadyVotedView(TemplateView):
-    template_name = 'pages/vote_has_been_counted.html'
+    template_name = 'pages/iscreated.html'
 
 
 ##########
@@ -34,19 +30,37 @@ class UserAlreadyVotedView(TemplateView):
 ##########
 
 # Class-Based View(CVB) example
-# A Class-Based View(CVB) is a view that extends the View class. Requests are handled inside class methods 
-# named after the HTTP methods, such as get, post, put, head, etc, offering superior flexability.
+# A Class-Based View extends the View class. Requests are handled inside class methods named after
+# the HTTP methods (GET, POST, PUT, HEAD ect.) offering SUPERIOR flexability.
 class NewPostView(View):
 
+    # Renders the base HTML.
     def render(self, request):
-        return render(request, 'pages/create_vote.html',  {'form': ResponseForm})
+        return render(request, 'pages/create.html',  {'form': ResponseForm})
+
+    # Renders the Create form, if user is 1) logged in and 2) has not already voted.
+    def get(self, request):
+
+        # Redirect non-user to the all-auth sign up page. You must have account to Vote.
+        if self.request.user.is_authenticated:
+            pass
+        else:
+            return redirect('account_signup')
+
+        PrevResponse = Response.objects.filter(created_by=self.request.user) # Query with a WHERE clause.
+        if PrevResponse.exists():      # Redirect users who have already voted away from the Create page.
+            return redirect('votecasted')
+
+        self.form = ResponseForm()  # Render requested Create form.
+        return self.render(request)
+
 
     def post(self, request):
 
         self.form = ResponseForm(request.POST)
 
         if self.form.is_valid():
-            self.form = self.form.save(commit=False) #This is the trick to saving the current user data.
+            self.form = self.form.save(commit=False) #This is the trick to saving editing input b4 commit.
             self.form.created_by = self.request.user
             self.form.save()
             return redirect('read')
@@ -54,51 +68,27 @@ class NewPostView(View):
         return self.render(request)
 
 
-    #This function retrieves the initial form itself and brings it to the page.
-    def get(self, request):
-        self.form = ResponseForm()
-
-        #Does this user have a previous response? If they do, redirect to another static page explining
-        #why they cant cast two responces
-        PrevResponse = Response.objects.filter(created_by=self.request.user)
-        if PrevResponse.exists():
-            return redirect('votecasted')
-
-        return self.render(request)
-
-    def get_context_data(self, **kwargs):
-        context = super(NewPostView, self).get_context_data(**kwargs)
-        context["response_list"] = Response.objects.filter(created_by=self.request.user)
-        return context
-
-# Generic Class-Based View example of a CreateView.  Fully functional
+# Generic Class-Based View (GCBV) example of a CreateView.
 class VoteView(CreateView):
     model = Response
     form_class = ResponseForm
-    template_name = 'pages/create_vote.html'
-    #success_url = reverse_lazy('HomePageView')
-
-
-    # Specifying the page to load on submission. The argument of reverse refrences urls.py
-    def get_success_url(self):
-        return reverse('create')
-
-
-    # User information attached. https://docs.djangoproject.com/en/3.2/topics/class-based-views/generic-editing/#models-and-request-user
+    template_name = 'pages/create.html'
+    success_url = 'pages/read.html'
+   
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
+        form.instance.created_by = self.request.user  # Saveing user UUID to the Responce.
+
+        if self.request.user.is_authenticated:  # Assert user is logged in.
+            pass
+        else:
+            return redirect('account_signup')
+
+        # Assert user vote will be unique
+        PrevResponse = Response.objects.filter(created_by=self.request.user) # Query with a WHERE clause.
+        if PrevResponse.exists():
+            return redirect('votecasted')
+
         return super(VoteView, self).form_valid(form)
-
-    
-    def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
-
-    #Make more data models known to the template!. Hint, the Question objectwould appears in the HTML Template called 'question_list'
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["response_list"] = Response.objects.filter(created_by=self.request.user)
-    #     return context
-
 
 
 ########
@@ -106,8 +96,8 @@ class VoteView(CreateView):
 ########
 class DetailView(ListView):
     model = Response
-    context_object_name = 'response_list'
-    template_name = 'pages/detail.html'
+    context_object_name = 'response_list' #Name of object in HTML template.
+    template_name = 'pages/read.html'
 
 
 ##########
@@ -115,12 +105,12 @@ class DetailView(ListView):
 ##########
 
 # Class-Based View(CVB)
-#  A CBV is a view that extends the View class. Requests are handled inside class methods 
-#  named after the HTTP methods, such as get, post, put, head, etc, offering superior flexability.
+#  A Class-Based View extends the View class. Requests are handled inside class methods named after
+#  the HTTP methods (GET, POST, PUT, HEAD ect.) offering SUPERIOR flexability.
 class UpdateView(View):
 
     def render(self, request):
-        return render(request, 'pages/update_form.html',  {'form': ResponseForm})
+        return render(request, 'pages/update.html',  {'form': ResponseForm})
 
     def post(self, request):
 
@@ -146,18 +136,16 @@ class UpdateView(View):
         return self.render(request)
 
 
-
-# Generic Class Based View (GCVB) Update View. I havn't gotten UpdateView to work yet. 
-# My workaround is implementing the same Class-Based View(CVB) for Create form, but I delete
-# the requesting users Response before saving their new Response.  
+# Generic Class Based View (GCVB) UpdateView is NOT yet functional. 
+# The Class Based View (CVB) implementation of a UpdateView above is functional.
 class UpdateVoteView(UpdateView):
     model = Response
     #fields
     form_class = ResponseForm
-    template_name = 'pages/update_form.html'
+    template_name = 'pages/update.html'
     pk_url_kwarg ='created_by'
     context_object_name = 'Response'
-    success_url ="pages/detail.html"
+    success_url ="pages/read.html"
 
     #need to add form is not valid function
     def form_valid(self, form):
@@ -169,31 +157,31 @@ class UpdateVoteView(UpdateView):
 ##########
 # Delete #
 ##########
+
 # Class-Based View(CVB)
-#  A CBV is a view that extends the View class. Requests are handled inside class methods 
-#  named after the HTTP methods, such as get, post, put, head, etc, offering superior flexability.
+#  A Class-Based View extends the View class. Requests are handled inside class methods named after
+#  the HTTP methods (GET, POST, PUT, HEAD ect.) offering SUPERIOR flexability.
 class DeleteView(View):
 
+    # Renders boilerplate HTML 
     def render(self, request):
-        return render(request, 'pages/response_confirm_delete.html')
+        return render(request, 'pages/delete.html')
 
-    def post(self, request):
-
-        #Delete the existing users previous entry.
-        Response.objects.filter(created_by=self.request.user).delete()
-
-        #return self.render(request)
-        return render(request, 'pages/detail.html',  {'response': Response})
-
-    #This function retrieves the initial form itself and brings it to the page.
+    # Renders the delete form
     def get(self, request):
         return self.render(request)
 
+
+    def post(self, request):
+
+        #Delete the existing users previous entry upon delete.
+        Response.objects.filter(created_by=self.request.user).delete()
+
+        #return self.render(request)
+        return render(request, 'pages/read.html',  {'response': Response})
+
+# Generic Class Based View (GCVB) DeleteView is NOT yet functional. 
+# The Class Based View (CVB) implementation of a DeleteView functional.
 class ResponseDeleteView(DeleteView):
-    # specify the model you want to use
     model = Response
-     
-    # can specify success url
-    # url to redirect after successfully
-    # deleting object
-    success_url ="pages/detail.html"
+    success_url ="pages/read.html"

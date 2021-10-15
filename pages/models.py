@@ -24,7 +24,7 @@ class Response(models.Model):
         ('No', 'No. Leave it as is.'),
     )
 
-    CLIMATE_RESPONCE = (
+    CLIMATE_RESPONSE = (
         ('Strong', 'Take extraordinary measures. Enact enforceable laws.'),
         ('Senseable', 'Take oridnary meaures, don\'t tread on my consumption.'),
         ('Capitalist', 'Take no meaures.'),
@@ -49,7 +49,7 @@ class Response(models.Model):
         on_delete = models.CASCADE)
     Stregthen_social_safety_nets = models.TextField(choices=SOCIAL_SAFETY_NET)
     Nationalize_healthcare = models.TextField(choices=NATIONALIZE_HEALTHCARE)
-    Climate_responce = models.TextField(choices=CLIMATE_RESPONCE)
+    Climate_response = models.TextField(choices=CLIMATE_RESPONSE)
     Should_we_limit_urban_sprall = models.TextField(choices=URBAN_SPRALL)
     Do_you_support_or_oppose_globalization = models.TextField(choices=GLOBALIZATION)
     created_at = models.DateTimeField(auto_now_add=True)

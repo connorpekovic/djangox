@@ -1,0 +1,18 @@
+{% extends 'pages/home.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Delete page{% endblock title %}
+
+{% block content %}
+
+<h3 style="text-align: center;">Delete your decesion</h3>
+
+    <form method="post">{% csrf_token %}
+        <br>
+        <h5 style="text-align: center;">Are you sure you want to delete your opinion? </h5>
+        <br>
+        <input class="btn btn-primary btn-lg btn-block" type="submit" value="Delete">
+    </form>
+
+{% endblock content %}
