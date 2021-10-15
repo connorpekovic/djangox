@@ -21,7 +21,7 @@ class HomePageView(TemplateView):
     template_name = 'pages/home.html'
 
 
-class UserAlreadyVotedView(TemplateView):
+class HasVoted(TemplateView):
     template_name = 'pages/iscreated.html'
 
 
@@ -32,7 +32,7 @@ class UserAlreadyVotedView(TemplateView):
 # Class-Based View(CVB) example
 # A Class-Based View extends the View class. Requests are handled inside class methods named after
 # the HTTP methods (GET, POST, PUT, HEAD ect.) offering SUPERIOR flexability.
-class NewPostView(View):
+class CreateCBView(View):
 
     # Renders the base HTML.
     def render(self, request):
@@ -69,7 +69,7 @@ class NewPostView(View):
 
 
 # Generic Class-Based View (GCBV) example of a CreateView.
-class VoteView(CreateView):
+class CreateGCBView(CreateView):
     model = Response
     form_class = ResponseForm
     template_name = 'pages/create.html'
@@ -88,7 +88,7 @@ class VoteView(CreateView):
         if PrevResponse.exists():
             return redirect('votecasted')
 
-        return super(VoteView, self).form_valid(form)
+        return super(CreateGCBView, self).form_valid(form)
 
 
 ########
@@ -107,7 +107,7 @@ class DetailView(ListView):
 # Class-Based View(CVB)
 #  A Class-Based View extends the View class. Requests are handled inside class methods named after
 #  the HTTP methods (GET, POST, PUT, HEAD ect.) offering SUPERIOR flexability.
-class UpdateView(View):
+class UpdateCBView(View):
 
     def render(self, request):
         return render(request, 'pages/update.html',  {'form': ResponseForm})
@@ -136,9 +136,9 @@ class UpdateView(View):
         return self.render(request)
 
 
-# Generic Class Based View (GCVB) UpdateView is NOT yet functional. 
-# The Class Based View (CVB) implementation of a UpdateView above is functional.
-class UpdateVoteView(UpdateView):
+# Generic Class Based View (GCVB) UpdateCBView is NOT yet functional. 
+# The Class Based View (CVB) implementation of a UpdateCBView above is functional.
+class UpdateGCBView(UpdateView):
     model = Response
     #fields
     form_class = ResponseForm
@@ -161,7 +161,7 @@ class UpdateVoteView(UpdateView):
 # Class-Based View(CVB)
 #  A Class-Based View extends the View class. Requests are handled inside class methods named after
 #  the HTTP methods (GET, POST, PUT, HEAD ect.) offering SUPERIOR flexability.
-class DeleteView(View):
+class DeleteCBView(View):
 
     # Renders boilerplate HTML 
     def render(self, request):
@@ -180,8 +180,8 @@ class DeleteView(View):
         #return self.render(request)
         return render(request, 'pages/read.html',  {'response': Response})
 
-# Generic Class Based View (GCVB) DeleteView is NOT yet functional. 
-# The Class Based View (CVB) implementation of a DeleteView functional.
-class ResponseDeleteView(DeleteView):
+# Generic Class Based View (GCVB) DeleteCBView is NOT yet functional. 
+# The Class Based View (CVB) implementation of a DeleteCBView functional.
+class DeleteGCBView(DeleteView):
     model = Response
     success_url ="pages/read.html"
