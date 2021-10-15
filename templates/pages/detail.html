@@ -11,23 +11,23 @@
     <tr>
         <th>Social Safety Net</th>
         <th>Nationalize Healthcare</th>
-        <th>Climate Responce</th>
+        <th>Climate response</th>
         <th>Urban Sprall</th>
         <th>Globalization</th>
         <th>Created At</th>
         <th>Updated At</th> 
         <th>Created By</th>
     </tr>
-    {% for responce in responce_list %}
+    {% for response in response_list %}
     <tr>
-        <td>{{ responce.Stregthen_social_safety_nets}}</td>
-        <td>{{ responce.Nationalize_healthcare}}</td>
-        <td>{{ responce.Climate_responce}}</td>
-        <td>{{ responce.Should_we_limit_urban_sprall}}</td>
-        <td>{{ responce.Do_you_support_or_oppose_globalization}}</td>
-        <td>{{ responce.created_at}}</td>
-        <td>{{ responce.updated_at}}</td>
-        <td>{{ responce.created_by}}</td>
+        <td>{{ response.Stregthen_social_safety_nets}}</td>
+        <td>{{ response.Nationalize_healthcare}}</td>
+        <td>{{ response.Climate_response}}</td>
+        <td>{{ response.Should_we_limit_urban_sprall}}</td>
+        <td>{{ response.Do_you_support_or_oppose_globalization}}</td>
+        <td>{{ response.created_at}}</td>
+        <td>{{ response.updated_at}}</td>
+        <td>{{ response.created_by}}</td>
     </tr>
     {% endfor %}
 </table>

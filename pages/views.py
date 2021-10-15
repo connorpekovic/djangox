@@ -36,7 +36,6 @@ class NoVoteView(TemplateView):
 # Class-Based View(CVB) example
 # A Class-Based View(CVB) is a view that extends the View class. Requests are handled inside class methods 
 # named after the HTTP methods, such as get, post, put, head, etc, offering superior flexability.
-
 class NewPostView(View):
 
     def render(self, request):
@@ -59,7 +58,18 @@ class NewPostView(View):
     def get(self, request):
         self.form = ResponseForm()
 
+        #Does this user have a previous response? If they do, redirect to another static page explining
+        #why they cant cast two responces
+        PrevResponse = Response.objects.filter(created_by=self.request.user)
+        if PrevResponse.exists():
+            return redirect('about')
+
         return self.render(request)
+
+    def get_context_data(self, **kwargs):
+        context = super(NewPostView, self).get_context_data(**kwargs)
+        context["response_list"] = Response.objects.filter(created_by=self.request.user)
+        return context
 
 # Generic Class-Based View example of a CreateView.  Fully functional
 class VoteView(CreateView):
@@ -83,10 +93,10 @@ class VoteView(CreateView):
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
 
-    # Make more data models known to the template!. Hint, the Question objectwould appears in the HTML Template called 'question_list'
+    #Make more data models known to the template!. Hint, the Question objectwould appears in the HTML Template called 'question_list'
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
-    #     context["question_list"] = Question.objects.all()
+    #     context["response_list"] = Response.objects.filter(created_by=self.request.user)
     #     return context
 
 
@@ -96,7 +106,7 @@ class VoteView(CreateView):
 ########
 class DetailView(ListView):
     model = Response
-    context_object_name = 'responce_list'
+    context_object_name = 'response_list'
     template_name = 'pages/detail.html'
 
 
@@ -134,6 +144,8 @@ class UpdateView(View):
         self.form = ResponseForm()
 
         return self.render(request)
+
+
 
 # Generic Class Based View (GCVB) Update View. I havn't gotten UpdateView to work yet. 
 # My workaround is implementing the same Class-Based View(CVB) for Create form, but I delete

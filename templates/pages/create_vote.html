@@ -15,9 +15,11 @@
         {% crispy form %}
     </form>
 
-{% else %}
+{% endif %}
 
-<br><br><br>
+{% if user.is_anonymous %}
+
+    <br><br><br>
     <h3 style="text-align: center;">Please simply create an account to cast your opinions. </h3>
 
 {% endif %}
