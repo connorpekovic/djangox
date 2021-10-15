@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from accounts.models import CustomUser
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 # Starlog:  Relating objects need to be mentioned parent-first.
         
@@ -42,10 +44,8 @@ class Response(models.Model):
     #     primary_key=True,
     #     default=uuid.uuid4,
     #     editable=False)
-    created_by = models.ForeignKey(
+    created_by = models.OneToOneField(
         CustomUser,
-        primary_key=True,
-        unique=True,
         on_delete = models.CASCADE)
     Stregthen_social_safety_nets = models.TextField(choices=SOCIAL_SAFETY_NET)
     Nationalize_healthcare = models.TextField(choices=NATIONALIZE_HEALTHCARE)
@@ -57,3 +57,10 @@ class Response(models.Model):
 
     def __str__(self):
         return str(self.created_by)
+
+
+#Django signal that generates a unique slug for an object. Very much like an event from .NET.
+# @receiver(pre_save, sender=Response)
+# def pre_save_receiver(sender, instance, *args, **kwargs):
+#     if not instance.slug:
+#         instance.slug = unique_slug_generator(instance)

@@ -1,0 +1,16 @@
+{% extends 'pages/home.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Delete page{% endblock title %}
+
+{% block content %}
+
+<h3 style="text-align: center;">Delete your decesion.</h3>
+
+    <form method="post">{% csrf_token %}
+        <h3>Are you sure you want to delete your Response?</h3>
+        <input type="submit" value="Confirm">
+    </form>
+
+{% endblock content %}
