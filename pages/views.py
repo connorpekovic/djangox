@@ -49,7 +49,7 @@ class CreateCBView(View):
 
         PrevResponse = Response.objects.filter(created_by=self.request.user) # Query with a WHERE clause.
         if PrevResponse.exists():      # Redirect users who have already voted away from the Create page.
-            return redirect('votecasted')
+            return redirect('created')
 
         self.form = ResponseForm()  # Render requested Create form.
         return self.render(request)
@@ -86,7 +86,7 @@ class CreateGCBView(CreateView):
         # Assert user vote will be unique
         PrevResponse = Response.objects.filter(created_by=self.request.user) # Query with a WHERE clause.
         if PrevResponse.exists():
-            return redirect('votecasted')
+            return redirect('created')
 
         return super(CreateGCBView, self).form_valid(form)
 
@@ -110,6 +110,12 @@ class DetailView(ListView):
 class UpdateCBView(View):
 
     def render(self, request):
+
+        if self.request.user.is_authenticated:  # Assert user is logged in.
+            pass
+        else:
+            return redirect('account_signup')
+
         return render(request, 'pages/update.html',  {'form': ResponseForm})
 
     def post(self, request):
@@ -165,6 +171,12 @@ class DeleteCBView(View):
 
     # Renders boilerplate HTML 
     def render(self, request):
+
+        if self.request.user.is_authenticated:  # Assert user is logged in.
+            pass
+        else:
+            return redirect('account_signup')
+
         return render(request, 'pages/delete.html')
 
     # Renders the delete form
