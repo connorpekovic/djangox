@@ -20,11 +20,11 @@ class ResponseForm(forms.ModelForm):
     class Meta:
         model = Response
         fields = [
-        'Stregthen_social_safety_nets',
-        'Nationalize_healthcare',
-        'Climate_response',
-        'Should_we_limit_urban_sprall',
-        'Do_you_support_or_oppose_globalization'
+        'Question1',
+        'Question2',
+        'Question3',
+        'Question4',
+        'Question5'
         ]
 
         #fields = '__all__' #Use all model fields

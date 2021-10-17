@@ -3,10 +3,12 @@ from django.test import TestCase, SimpleTestCase
 from django.urls import reverse, resolve
 from django.contrib.auth import get_user_model
 from .views import HomePageView, DetailView, CreateCBView, UpdateCBView, DeleteCBView, HasVoted
+from .models import Response
 
 # Create your tests here.
 
-class OrganicUserTest(TestCase):
+# We are going to test ALL the pages a user can try to access before logging in.
+class AnonymousUserTest(TestCase):
 
     # Assign variables used in other test.
     def setUp(self):
@@ -40,12 +42,13 @@ class OrganicUserTest(TestCase):
 
     # Asserts that the template with the given name was used in rendering the setUp response.
     def test_homepage_template(self):
-        self.assertTemplateUsed(self.home_response, 'pages/home.html') #Only 2 templates in play before signin
-        self.assertTemplateUsed(self.read_response, 'pages/read.html')
+        self.assertTemplateUsed(self.home_response, 'pages/home.html') #Only 2 templates in play before signin because
+        self.assertTemplateUsed(self.read_response, 'pages/read.html') #Create, Update, Delete pages lead to redirects
 
     # Assert the setUp responce(parm1) contains a str(parm2) and a coded http responce code(parm3).
     def test_homepage_contains_correct_html(self):
-        self.assertContains(self.home_response, 'Participate in community decesion making with the Normal Organization')
+        self.assertContains(self.home_response, '<h3 style="text-align: center;">Participate')
+        self.assertContains(self.read_response, '<h3 style="text-align: center;">View Results</h3>')
 
     # Assert the setUp responce(parm1) DOES NOT contains a string(parm2).
     def test_homepage_does_not_contain_incorrect_html(self):
@@ -61,7 +64,19 @@ class OrganicUserTest(TestCase):
             HomePageView.as_view().__name__
         )
 
+#Test that the sign up page works
+class SignupPageTests(TestCase):
+    
+    def setUp(self):
+        # url = reverse('signup') Used only if we overwrite Django AllAuth
+        self.response = self.client.get('/accounts/signup/')
 
+    def test_signup_template(self):
+        self.assertEqual(self.response.status_code, 200)
+        self.assertTemplateUsed(self.response, 'account/signup.html')
+        self.assertContains(self.response, 'Sign up')
+
+# Testing that our customer user model works.
 class CustomUserTests(TestCase):
 
     #Assert user account creation works
@@ -92,13 +107,115 @@ class CustomUserTests(TestCase):
         self.assertTrue(admin_user.is_staff)
         self.assertTrue(admin_user.is_superuser)
 
-class CustomUserTests(TestCase):
+# Test the create form's page.
+class CreatePageTest(TestCase):
     
     def setUp(self):
-        # url = reverse('signup') Used only if we overwrite Django AllAuth
-        self.response = self.client.get('/accounts/signup/')
+        User = get_user_model() #Create test user for subsequent test.
+        user = User.objects.create_user( 
+            username='rachel',
+            email='rachel@email.com',
+            password='testpass123'
+        )
+        login = self.client.login(username='rachel', password='testpass123')
 
-    def test_signup_template(self):
+        url = reverse('create') #Create test request now that test user is logged in.
+        self.response = self.client.get(url)
+
+    def test_create_page_responce_code(self):
         self.assertEqual(self.response.status_code, 200)
-        self.assertTemplateUsed(self.response, 'account/signup.html')
-        self.assertContains(self.response, 'Sign up')
+
+    def test_create_page_template(self):
+        self.assertTemplateUsed(self.response, 'pages/create.html')
+
+    # Check that a view.py function resolves to a given URL Path
+    def test_homepage_url_resolves_homepageview(self): # new
+        view = resolve('/create/')
+        self.assertEqual(
+            view.func.__name__,
+            CreateCBView.as_view().__name__
+        )
+
+# Test the update form's page.
+class UpdatePageTest(TestCase):
+    
+    def setUp(self):
+        User = get_user_model() #Create test user for subsequent test.
+        user = User.objects.create_user( 
+            username='rachel',
+            email='rachel@email.com',
+            password='testpass123'
+        )
+        login = self.client.login(username='rachel', password='testpass123')
+
+        url = reverse('update')
+        self.response = self.client.get(url)
+
+    def test_create_page_responce_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_create_page_template(self):
+        self.assertTemplateUsed(self.response, 'pages/update.html')
+
+    # Check that a view.py function resolves to a given URL Path
+    def test_homepage_url_resolves_homepageview(self): # new
+        view = resolve('/update/')
+        self.assertEqual(
+            view.func.__name__,
+            UpdateCBView.as_view().__name__
+        )
+
+# Test the delete form's page.
+class DeletePageTest(TestCase):
+    
+    def setUp(self):
+        User = get_user_model() #Create test user for subsequent test.
+        user = User.objects.create_user( 
+            username='rachel',
+            email='rachel@email.com',
+            password='testpass123'
+        )
+        login = self.client.login(username='rachel', password='testpass123')
+
+        url = reverse('delete')
+        self.response = self.client.get(url)
+
+    def test_create_page_responce_code(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_create_page_template(self):
+        self.assertTemplateUsed(self.response, 'pages/delete.html')
+
+    # Check that a view.py function resolves to a given URL Path
+    def test_homepage_url_resolves_homepageview(self): # new
+        view = resolve('/delete/')
+        self.assertEqual(
+            view.func.__name__,
+            DeleteCBView.as_view().__name__
+        )
+
+class ResponseObjectTest(TestCase):
+    def setUp(self):
+        User = get_user_model() #Create test user for subsequent test.
+        testuser = User.objects.create_user( 
+            username='rachel',
+            email='rachel@email.com',
+            password='testpass123'
+        )
+        self.client.login(username='rachel', password='testpass123')
+
+        self.Response = Response.objects.create(
+            Question1 = 'Yes',
+            Question2 = 'Yes',
+            Question3 = 'Strong',
+            Question4 = 'Yes',
+            Question5 = 'Yes',
+            created_by = testuser
+        )
+    
+    def test_responses(self):
+        self.assertEqual(f'{self.Response.Question1}','Yes')
+        self.assertEqual(f'{self.Response.Question2}','Yes')
+        self.assertEqual(f'{self.Response.Question3}','Strong')
+        self.assertEqual(f'{self.Response.Question4}','Yes')
+        self.assertEqual(f'{self.Response.Question5}','Yes')

@@ -47,11 +47,11 @@ class Response(models.Model):
     created_by = models.OneToOneField(
         CustomUser,
         on_delete = models.CASCADE)
-    Stregthen_social_safety_nets = models.TextField(choices=SOCIAL_SAFETY_NET)
-    Nationalize_healthcare = models.TextField(choices=NATIONALIZE_HEALTHCARE)
-    Climate_response = models.TextField(choices=CLIMATE_RESPONSE)
-    Should_we_limit_urban_sprall = models.TextField(choices=URBAN_SPRALL)
-    Do_you_support_or_oppose_globalization = models.TextField(choices=GLOBALIZATION)
+    Question1 = models.TextField(choices=SOCIAL_SAFETY_NET)
+    Question2 = models.TextField(choices=NATIONALIZE_HEALTHCARE)
+    Question3 = models.TextField(choices=CLIMATE_RESPONSE)
+    Question4 = models.TextField(choices=URBAN_SPRALL)
+    Question5 = models.TextField(choices=GLOBALIZATION)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
