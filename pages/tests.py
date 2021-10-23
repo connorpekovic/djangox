@@ -17,13 +17,11 @@ class AnonymousUserTest(TestCase):
         url_create = reverse('create')
         url_created = reverse('created')
         url_read = reverse('read')
-        url_update = reverse('update')
         url_delete = reverse('delete')
         self.home_response = self.client.get(url_home)
         self.create_response = self.client.get(url_create)
         self.created_response = self.client.get(url_created)
         self.read_response = self.client.get(url_read)
-        self.update_response = self.client.get(url_update)
         self.delete_response = self.client.get(url_delete)
 
 
@@ -32,12 +30,10 @@ class AnonymousUserTest(TestCase):
         home_response = self.client.get('/')
         create_response = self.client.get('/create/')
         read_response = self.client.get('/read/')
-        update_response = self.client.get('/update/')
         delete_response = self.client.get('/delete/')
         self.assertEqual(home_response.status_code, 200)   # Users are not allowed to create, 
         self.assertEqual(create_response.status_code, 302) # update or delete vote objects until
         self.assertEqual(read_response.status_code, 200)   # they are signed in, so pages/views.py
-        self.assertEqual(update_response.status_code, 302) # redirects users to the signup.html page
         self.assertEqual(create_response.status_code, 302) # if they try to CURD before logging in.
 
 
@@ -48,7 +44,7 @@ class AnonymousUserTest(TestCase):
 
     # Assert the setUp responce(parm1) contains a str(parm2) and a coded http responce code(parm3).
     def test_homepage_contains_correct_html(self):
-        self.assertContains(self.home_response, '<h3 style="text-align: center;">Participate')
+        self.assertContains(self.home_response, 'Home page')
         self.assertContains(self.read_response, '<h3 style="text-align: center;">View Results</h3>')
 
     # Assert the setUp responce(parm1) DOES NOT contains a string(parm2).

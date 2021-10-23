@@ -1,6 +1,7 @@
 import uuid 
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.fields import SlugField
 from django.urls import reverse
 from accounts.models import CustomUser
 from django.db.models.signals import pre_save
@@ -69,8 +70,6 @@ class Response(models.Model):
     Question5 = models.TextField(choices=PRYAMIDS)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    
 
     def __str__(self):
         return str(self.created_by)

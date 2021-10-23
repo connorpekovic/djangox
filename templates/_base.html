@@ -28,7 +28,7 @@
       </h5>
       <a class="p-2 text-dark" href="{% url 'create' %}">Create</a>
       <a class="p-2 text-dark" href="{% url 'read' %}">Read</a>
-      <a class="p-2 text-dark" href="{% url 'update' %}">Update</a>
+      <a class="p-2 text-dark" href="{% url 'update' user.id %}">Update</a>
       <a class="p-2 text-dark" href="{% url 'delete' %}">Delete</a>
       <a class="p-2 text-dark" href="{% url 'about' %}">About</a>
       {% comment %} <a class="theme-color-1 px-4" href="{% url 'vote' %}">Participate</a> {% endcomment %}

@@ -3,9 +3,10 @@ from django.views.generic import View, TemplateView,  CreateView, ListView, Dele
 from django.views.generic.edit import UpdateView
 from .forms import ResponseForm
 from .models import Response
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Table of Contents
 #   Static Pages
@@ -79,9 +80,10 @@ class CreateGCBView(CreateView):
     success_url = 'pages/read.html'
    
     def form_valid(self, form):
-        form.instance.created_by = self.request.user  # Saveing user UUID to the Responce.
+        form.instance.created_by = self.request.user  # Saving user UUID to the Responce.
 
-        if self.request.user.is_authenticated:  # Assert user is logged in.
+        # Assert user is logged in.
+        if self.request.user.is_authenticated:  
             pass
         else:
             return redirect('account_signup')
@@ -113,13 +115,18 @@ class DetailView(ListView):
 class UpdateCBView(View):
 
     def render(self, request):
-
-        if self.request.user.is_authenticated:  # Assert user is logged in.
-            pass
+        if self.request.user.is_authenticated:  # Assert the user is logged in.
+            pass                                # If the user is not logged in, the view makes them.
         else:
             return redirect('account_signup')
 
         return render(request, 'pages/update.html',  {'form': ResponseForm})
+
+
+    #This function retrieves the initial form itself and brings it to the page.
+    def get(self, request):
+        self.form = ResponseForm()
+        return self.render(request)
 
     def post(self, request):
 
@@ -138,23 +145,20 @@ class UpdateCBView(View):
             
         return self.render(request)
 
-    #This function retrieves the initial form itself and brings it to the page.
-    def get(self, request):
-        self.form = ResponseForm()
-
-        return self.render(request)
-
 
 # Generic Class Based View (GCVB) UpdateCBView is NOT yet functional. 
 # The Class Based View (CVB) implementation of a UpdateCBView above is functional.
-class UpdateGCBView(UpdateView):
+class UpdateGCBView(LoginRequiredMixin, UpdateView):
     model = Response
-    #fields
     form_class = ResponseForm
     template_name = 'pages/update.html'
     pk_url_kwarg ='created_by'
     context_object_name = 'Response'
     success_url ="pages/read.html"
+
+    # This method takes a query that tells UpdateView what object we are updating.
+    def get_object(self):
+        return Response.objects.get(created_by=self.request.user)
 
     #need to add form is not valid function
     def form_valid(self, form):
@@ -162,6 +166,7 @@ class UpdateGCBView(UpdateView):
         post.updated_at = timezone.now()
         post.save()
         return redirect('read')
+
 
 ##########
 # Delete #
