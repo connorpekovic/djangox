@@ -1,15 +1,19 @@
 from pathlib import Path
+from environs import Env # Allows environment variables from docker-compose.yml to be accessed.
+
+env = Env()
+env.read_env()
 
 # GENERAL
 # ------------------------------------------------------------------------------
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
-SECRET_KEY = '43)%4yx)aa@a=+_c(fn&kf3g29xax+=+a&key9i=!98zyim=8j'
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = [".herokuapp.com","localhost", "0.0.0.0", "127.0.0.1"]
 
 # APPS
 # ------------------------------------------------------------------------------
@@ -79,16 +83,21 @@ TEMPLATES = [
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = { 
-    'default': { 
-        'ENGINE': 'django.db.backends.postgresql', 
-        'NAME': 'postgres', 
-        'USER': 'postgres', 
-        'PASSWORD': 'postgres', 
-        'HOST': 'db', 
-        'PORT': 5432 
-    }			 
-} 
+# DATABASES = { 
+#     'default': { 
+#         'ENGINE': 'django.db.backends.postgresql', 
+#         'NAME': 'postgres', 
+#         'USER': 'postgres', 
+#         'PASSWORD': 'postgres', 
+#         'HOST': 'db', 
+#         'PORT': 5432 
+#     }			 
+# } 
+
+DATABASES = {
+    "default": env.dj_db_url("DATABASE_URL",
+    default="postgres://postgres@db/postgres")
+}
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
