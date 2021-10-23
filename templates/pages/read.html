@@ -4,34 +4,35 @@
 {% block title %}Detail page{% endblock title %}
 
 {% block content %}
+<div class="container">
 
-<h3 style="text-align: center;">View Results</h3>
+    <h3 style="text-align: center;">View Results</h3>
 
-<table>
-    <tr>
-        <th>Social Safety Net</th>
-        <th>Nationalize Healthcare</th>
-        <th>Climate response</th>
-        <th>Urban Sprall</th>
-        <th>Globalization</th>
-        <th>Created At</th>
-        <th>Updated At</th> 
-        <th>Created By</th>
-    </tr>
-    {% for response in response_list %}
-    <tr>
-        <td>{{ response.Question1}}</td>
-        <td>{{ response.Question2}}</td>
-        <td>{{ response.Question3}}</td>
-        <td>{{ response.Question4}}</td>
-        <td>{{ response.Question5}}</td>
-        <td>{{ response.created_at}}</td>
-        <td>{{ response.updated_at}}</td>
-        <td>{{ response.created_by}}</td>
-    </tr>
-    {% endfor %}
-</table>
-
+    <table>
+        <tr>
+            <th class="pr-4">Is there Fate</th>
+            <th>Meaning of Life</th>
+            <th>Goal of Humanity</th>
+            <th>Rights</th>
+            <th>Who build the Pryamids</th>
+            <th>Created At</th>
+            <th>Updated At</th> 
+            <th>Created By</th>
+        </tr>
+        {% for response in response_list %}
+        <tr>
+            <td>{{ response.Question1}}</td>
+            <td>{{ response.Question2}}</td>
+            <td>{{ response.Question3}}</td>
+            <td>{{ response.Question4}}</td>
+            <td>{{ response.Question5}}</td>
+            <td>{{ response.created_at}}</td>
+            <td>{{ response.updated_at}}</td>
+            <td>{{ response.created_by}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 
 {% endblock content %}

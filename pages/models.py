@@ -13,32 +13,47 @@ from django.dispatch import receiver
 # Assumption: Perception of truth change throughout time.
 class Response(models.Model):
 
-    SOCIAL_SAFETY_NET = (
-        ('Yes', 'Yes. Enact UBI (Universal Basic Income).'),
-        ('Same', 'No. Spending levels as is'),
-        ('Reduce', 'Negatory. Slowly stop funding Social Security'),
+    FATE = (
+        ('Yes', 'Yes. I believe in determination'),
+        ('No', 'No. I believe in self-determination.'),
+        ('Maybe', 'I cant tell if there is fate, but maybe there is luck.'),
+        ('Idk', 'I do not know.'),
     )
 
-    NATIONALIZE_HEALTHCARE = (
-        ('Yes', 'Yes. Nationalize it like the NHS in England.'),
-        ('No', 'No. Leave it as is.'),
+    MEANING = (
+        ('Yes', 'Yes. My life had a meaning. I am here with a purpose.'),
+        ('No', 'No. Life is random and lacks meaning.'),
     )
 
-    CLIMATE_RESPONSE = (
-        ('Strong', 'Take extraordinary measures. Enact enforceable laws.'),
-        ('Senseable', 'Take oridnary meaures, don\'t tread on my consumption.'),
-        ('Capitalist', 'Take no meaures.'),
+    GOAL = (
+        ('Please God', 'Appease God\'s will.'),
+        ('Panspermia', 'Spread life into the universe (a.k.a. panspermia).'),
+        ('Persist', 'Preserve life on earth.'),
+        ('Idealism', 'Uphold right and wrong.'),
     )
 
-    URBAN_SPRALL = (
-        ('Yes', 'Yes. Promote city living.'),
-        ('No', 'No. Don\'t tread on me.'),
+    RIGHTS = (
+
+        ('Water', 'Water is a human right.'),
+        ('Water, Food', 'Water and food are human rights.'),
+        ('Water, Food, and Housing', 'Water, food, and housing are human rights.'),
+        # ('Justice','Everyone deserves blind justice.'),
+        ('None', 'Nothing is guaranteed in life by others.'),
+
     )
 
     GLOBALIZATION = (
-        ('Yes', 'Yes. Globalization increases the quality of life and brings rich cultures together.'),
-        ('No', 'No. We need to focus on issued at home. Things will work out better in the end.'),
+        ('Yes', 'Yes. Globalization brought billions out of poverty.'),
+        ('No', 'No. Globalization created unsatiable demand and displaced western manfactuering jobs.'),
     )
+
+    PRYAMIDS = (
+        ('Humans', 'Humans using ancient building techquins and hard work.'),
+        ('Alien Intervention', 'Humans with alien intervention.'),
+        ('Divine Intervention', 'Humans with divine intervention.'),
+
+    )
+
 
     # id = models.UUIDField(
     #     primary_key=True,
@@ -47,13 +62,15 @@ class Response(models.Model):
     created_by = models.OneToOneField(
         CustomUser,
         on_delete = models.CASCADE)
-    Question1 = models.TextField(choices=SOCIAL_SAFETY_NET)
-    Question2 = models.TextField(choices=NATIONALIZE_HEALTHCARE)
-    Question3 = models.TextField(choices=CLIMATE_RESPONSE)
-    Question4 = models.TextField(choices=URBAN_SPRALL)
-    Question5 = models.TextField(choices=GLOBALIZATION)
+    Question1 = models.TextField(choices=FATE)
+    Question2 = models.TextField(choices=MEANING)
+    Question3 = models.TextField(choices=GOAL)
+    Question4 = models.TextField(choices=RIGHTS)
+    Question5 = models.TextField(choices=PRYAMIDS)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    
 
     def __str__(self):
         return str(self.created_by)

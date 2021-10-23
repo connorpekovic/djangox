@@ -5,6 +5,7 @@
 {% block title %}Already Voted{% endblock title %}
 
 {% block content %}
+<div class="container">
 
 <h1 style="text-align: center;">You already voted!</h1>
 
@@ -14,4 +15,5 @@
     <p style="text-align: center;">You can update your vote <a href="{% url 'update'%}">here</a> </p>
     <p style="text-align: center;">You can delete what you voted <a href="{% url 'delete'%}">here</a> </p>
 
+</div>
 {% endblock content %}

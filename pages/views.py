@@ -24,6 +24,9 @@ class HomePageView(TemplateView):
 class HasVoted(TemplateView):
     template_name = 'pages/iscreated.html'
 
+class AboutView(TemplateView):
+    template_name = 'pages/about.html'
+
 
 ##########
 # Create #

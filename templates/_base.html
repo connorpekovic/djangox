@@ -20,7 +20,7 @@
 
 <body>
   <main role="main">
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom shadow-sm">
       <h5 class="my-0 mr-md-auto font-weight-normal">
       <div class="px-4" style="font-size:large; margin-left: 20%; margin-right: 20%; position:relative;">
         <a href="{% url 'home' %}">The Normal Organization</a>
@@ -30,6 +30,7 @@
       <a class="p-2 text-dark" href="{% url 'read' %}">Read</a>
       <a class="p-2 text-dark" href="{% url 'update' %}">Update</a>
       <a class="p-2 text-dark" href="{% url 'delete' %}">Delete</a>
+      <a class="p-2 text-dark" href="{% url 'about' %}">About</a>
       {% comment %} <a class="theme-color-1 px-4" href="{% url 'vote' %}">Participate</a> {% endcomment %}
       <nav class="my-2 my-md-0 mr-md-3">
         {% if user.is_authenticated %}
@@ -55,15 +56,15 @@
     </div>
   </main>
 
-  <div class="container">
+  
     {% block content %}
       <p>Default content...</p>
     {% endblock content %}
-  </div>
+ 
 
   <footer class="footer">
     <div class="container">
-      <span class="text-muted">Footer...</span>
+      <span class="text-muted">The Normal Organization</span>
     </div>
   </footer>
 

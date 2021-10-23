@@ -5,7 +5,20 @@
 
 {% block content %}
 
-<h3 style="text-align: center;">Participate in community decesion making with the Normal Organization</h3>
+<div class="py-2 mb-3" style="text-align: center; background-color: lightgreen;">
+    This is simple a proof of competency website.  It uses Python Django to securely create, read, update and delete data.
+</div>
 
+<div class="container">
+    <div class="jumbotron">
+    <h1 class="display-4">Come to an agreement</h1>
+    <p class="lead">Cast your opinion and compare it to what others believe.</p>
+    <hr class="my-4">
+    <p>Vote on 5 beliefes and compare that to what others believe.</p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'create' %}#" role="button">Vote Here</a>
+    </p>
+    </div>
+</div>
 
 {% endblock content %}

@@ -5,12 +5,14 @@
 {% block title %}Update page{% endblock title %}
 
 {% block content %}
+<div class="container">
 
-<h3 style="text-align: center;">Update your decesion.</h3>
+    <h3 style="text-align: center;">Update your decesion.</h3>
 
-    <form action='.' method='POST'>
-        {% csrf_token %}
-        {% crispy form %}
-    </form>
+        <form action='.' method='POST'>
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+</div>
 
 {% endblock content %}

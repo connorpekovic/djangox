@@ -2,6 +2,7 @@ from django.http import response
 from django.test import TestCase, SimpleTestCase
 from django.urls import reverse, resolve
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Permission
 from .views import HomePageView, DetailView, CreateCBView, UpdateCBView, DeleteCBView, HasVoted
 from .models import Response
 
@@ -117,24 +118,27 @@ class CreatePageTest(TestCase):
             email='rachel@email.com',
             password='testpass123'
         )
-        login = self.client.login(username='rachel', password='testpass123')
 
-        url = reverse('create') #Create test request now that test user is logged in.
-        self.response = self.client.get(url)
-
-    def test_create_page_responce_code(self):
-        self.assertEqual(self.response.status_code, 200)
-
-    def test_create_page_template(self):
-        self.assertTemplateUsed(self.response, 'pages/create.html')
-
-    # Check that a view.py function resolves to a given URL Path
-    def test_homepage_url_resolves_homepageview(self): # new
+    # Test what happens when a loggin in user accesses the Create page.
+    def test_create_page_logged_in_user(self):
+        self.client.login(username='rachel', password='testpass123') # Log in / credentials
+        url = reverse('create') 
+        response = self.client.get(url) 
+        self.assertEqual(response.status_code, 200) # Assure url success
+        self.assertTemplateUsed(response, 'pages/create.html') #Assure correct template used
         view = resolve('/create/')
-        self.assertEqual(
+        self.assertEqual(           # Check that the URL Path resolves from CreateEBView view.py function
             view.func.__name__,
             CreateCBView.as_view().__name__
         )
+
+    # Test what happens when a logged out user accesses the Create page.
+    def test_create_page_logged_out_user(self):
+        self.client.logout() # Logout
+        response = self.client.get(reverse('create'))
+        self.assertEqual(response.status_code, 302) # Assure url redirects 
+        self.assertRedirects(response,(reverse('account_signup')))  # Redirects to 'account_signup' url name.
+
 
 # Test the update form's page.
 class UpdatePageTest(TestCase):
@@ -146,24 +150,27 @@ class UpdatePageTest(TestCase):
             email='rachel@email.com',
             password='testpass123'
         )
-        login = self.client.login(username='rachel', password='testpass123')
 
-        url = reverse('update')
-        self.response = self.client.get(url)
-
-    def test_create_page_responce_code(self):
-        self.assertEqual(self.response.status_code, 200)
-
-    def test_create_page_template(self):
-        self.assertTemplateUsed(self.response, 'pages/update.html')
-
-    # Check that a view.py function resolves to a given URL Path
-    def test_homepage_url_resolves_homepageview(self): # new
+    # Test what happens when a loggin in user accesses the Update page.
+    def test_update_page_logged_in_user(self):
+        self.client.login(username='rachel', password='testpass123') # Log in / credentials
+        url = reverse('update') 
+        response = self.client.get(url) 
+        self.assertEqual(response.status_code, 200) # Assure url success
+        self.assertTemplateUsed(response, 'pages/update.html') #Assure correct template used
         view = resolve('/update/')
-        self.assertEqual(
+        self.assertEqual(           # Check that the URL Path resolves from UpdateEBView view.py function
             view.func.__name__,
             UpdateCBView.as_view().__name__
         )
+
+    # Test what happens when a logged out user accesses the Update page.
+    def test_update_page_logged_out_user(self):
+        self.client.logout() # Logout
+        response = self.client.get(reverse('update'))
+        self.assertEqual(response.status_code, 302) # Assure url redirects 
+        self.assertRedirects(response,(reverse('account_signup')))  # Redirects to 'account_signup' url name.
+
 
 # Test the delete form's page.
 class DeletePageTest(TestCase):
@@ -175,25 +182,32 @@ class DeletePageTest(TestCase):
             email='rachel@email.com',
             password='testpass123'
         )
-        login = self.client.login(username='rachel', password='testpass123')
+        # login = self.client.login(username='rachel', password='testpass123')
+        # url = reverse('delete')
+        # self.response = self.client.get(url)
 
-        url = reverse('delete')
-        self.response = self.client.get(url)
-
-    def test_create_page_responce_code(self):
-        self.assertEqual(self.response.status_code, 200)
-
-    def test_create_page_template(self):
-        self.assertTemplateUsed(self.response, 'pages/delete.html')
-
-    # Check that a view.py function resolves to a given URL Path
-    def test_homepage_url_resolves_homepageview(self): # new
+    # Test what happens when a loggin in user accesses the Delete page.
+    def test_delete_page_logged_in_user(self):
+        self.client.login(username='rachel', password='testpass123') # Log in / credentials
+        url = reverse('delete') 
+        response = self.client.get(url) 
+        self.assertEqual(response.status_code, 200) # Assure url success
+        self.assertTemplateUsed(response, 'pages/delete.html') #Assure correct template used
         view = resolve('/delete/')
-        self.assertEqual(
+        self.assertEqual(           # Check that the URL Path resolves from DeleteEBView view.py function
             view.func.__name__,
             DeleteCBView.as_view().__name__
         )
 
+    # Test what happens when a logged out user accesses the Delete page.
+    def test_delete_page_logged_out_user(self):
+        self.client.logout() # Logout
+        response = self.client.get(reverse('delete'))
+        self.assertEqual(response.status_code, 302) # Assure url redirects 
+        self.assertRedirects(response,(reverse('account_signup')))  # Redirects to 'account_signup' url name.
+
+
+#Testing the Response objects create-read-update-delete abilities
 class ResponseObjectTest(TestCase):
     def setUp(self):
         User = get_user_model() #Create test user for subsequent test.
@@ -203,7 +217,11 @@ class ResponseObjectTest(TestCase):
             password='testpass123'
         )
         self.client.login(username='rachel', password='testpass123')
+        # self.special_permission = Permission.objects.get(  # How to add permissions for our test.
+        #     codename='special_status'
+        # )
 
+        # setUp 1 test object
         self.Response = Response.objects.create(
             Question1 = 'Yes',
             Question2 = 'Yes',
@@ -213,6 +231,7 @@ class ResponseObjectTest(TestCase):
             created_by = testuser
         )
     
+    # Assert responces are correct
     def test_responses(self):
         self.assertEqual(f'{self.Response.Question1}','Yes')
         self.assertEqual(f'{self.Response.Question2}','Yes')

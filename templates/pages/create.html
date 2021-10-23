@@ -6,17 +6,20 @@
 
 {% block content %}
 
-<h1 style="text-align: center;">Participate in community decesion making with the Normal Organization</h1>
+<div class="container">
 
-{% if user.is_authenticated %}
+    <h1 style="text-align: center;">Participate in community decesion making with the Normal Organization</h1>
 
-    <form action='.' method='POST'>
-        {% csrf_token %}
-        {% crispy form %}
-    </form>
+    {% if user.is_authenticated %}
 
-{% endif %}
+        <form action='.' method='POST'>
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
 
+    {% endif %}
+
+</div>
 
 
 {% endblock content %}

@@ -15,8 +15,14 @@ class ResponseForm(forms.ModelForm):
         self.helper.form_method = 'POST'
         self.helper.form_action = 'submit'
         self.helper.add_input(Submit('submit', 'Submit'))
+        self.fields['Question1'].label = "Is there such a thing as fate? Do we have free will to make our own choices?"
+        self.fields['Question2'].label = "Is life completely random or does life have meaning?"
+        self.fields['Question3'].label = "What should the goal of humanity be?"
+        self.fields['Question4'].label = "What does every human in the world deserve; even those who have committed heinous crimes?"
+        self.fields['Question5'].label = "Who build the pryamids?"
+
         
-    #Basic model Form meta tag. We use feilds to manage the order of what in displayed.
+    #Basic model Form meta tag. We use felids to manage the order of what in displayed.
     class Meta:
         model = Response
         fields = [
