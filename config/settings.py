@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = env.bool("DJANGO_DEBUG")
+DEBUG = env.bool("DJANGO_DEBUG", default=False)
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = [".herokuapp.com","localhost", "0.0.0.0", "127.0.0.1"]
 
@@ -39,6 +39,22 @@ INSTALLED_APPS = [
     'pages',
 ]
 
+# SECURITY
+# Defaults are production settings. docker-compose.yml (test) environment variables overide them.
+#-------------------------------------------------------------------------------------------------
+# SECURE_SSL_REDIRECT Forces redirects to use SSL.
+SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
+# Forces subdomains to also use SSL
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
+# SECURE_HSTS_SECONDS
+SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=2592000)
+# SECURE_HSTS_PRELOAD
+SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=True)
+SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
+CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=True)
+
+
+
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
@@ -60,6 +76,9 @@ MIDDLEWARE = [
 ROOT_URLCONF = "config.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "config.wsgi.application"
+
+
+
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
