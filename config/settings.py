@@ -13,7 +13,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = [".herokuapp.com","localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = [".herokuapp.com","localhost", "0.0.0.0", "127.0.0.1", "immense-forest-82676.herokuapp.com", "normalorg.com", "www.normalorg.com"]
 
 # APPS
 # ------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 # SECURITY
 # Defaults are production settings. docker-compose.yml (test) environment variables overide them.
 #-------------------------------------------------------------------------------------------------
-# SECURE_SSL_REDIRECT Forces redirects to use SSL.
+# SECURE_SSL_REDIRECT Forces redirects to use https at the appplication level.
 SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 # Forces subdomains to also use SSL
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
