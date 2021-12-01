@@ -1,4 +1,4 @@
-#docker-compose-prod.yml
+docker-compose-prod.yml
 
 # OSX #
 .DS_Store

@@ -7,11 +7,9 @@ from accounts.models import CustomUser
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-# Starlog:  Relating objects need to be mentioned parent-first.
-        
+
 # Create your models here.
-# This represents a users responce to a Question object.
-# Assumption: Perception of truth change throughout time.
+# A Response simply object represents a response all 5 questions.
 class Response(models.Model):
 
     FATE = (
@@ -34,18 +32,10 @@ class Response(models.Model):
     )
 
     RIGHTS = (
-
-        ('Water', 'Water is a human right.'),
-        ('Water, Food', 'Water and food are human rights.'),
-        ('Water, Food, and Housing', 'Water, food, and housing are human rights.'),
-        # ('Justice','Everyone deserves blind justice.'),
-        ('None', 'Nothing is guaranteed in life by others.'),
-
-    )
-
-    GLOBALIZATION = (
-        ('Yes', 'Yes. Globalization brought billions out of poverty.'),
-        ('No', 'No. Globalization created unsatiable demand and displaced western manfactuering jobs.'),
+        ('Physiological', 'Physiological needs like food, water, sleep, shelter.'),
+        ('Safety', 'Security of body, employment, resources, health.'),
+        ('Education conditional', 'You are allowed unlimited education if you are qualified.'),
+        ('Education unconditional', 'Unlimited free education.'),
     )
 
     PRYAMIDS = (
@@ -55,11 +45,6 @@ class Response(models.Model):
 
     )
 
-
-    # id = models.UUIDField(
-    #     primary_key=True,
-    #     default=uuid.uuid4,
-    #     editable=False)
     created_by = models.OneToOneField(
         CustomUser,
         on_delete = models.CASCADE)
@@ -74,9 +59,17 @@ class Response(models.Model):
     def __str__(self):
         return str(self.created_by)
 
+    
+    # def Q1_yes():
+    #     q1_yesses = Response.objects.filter(Question1 = 'Yes').count()
+    #     return 'test success'
 
-#Django signal that generates a unique slug for an object. Very much like an event from .NET.
-# @receiver(pre_save, sender=Response)
-# def pre_save_receiver(sender, instance, *args, **kwargs):
-#     if not instance.slug:
-#         instance.slug = unique_slug_generator(instance)
+    def total_Question1_no():
+        pass
+
+    def total_Questoin2_maybe():
+        pass
+
+    def total_Question_idk():
+        pass
+    

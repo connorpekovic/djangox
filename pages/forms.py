@@ -3,8 +3,6 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Response
 
-
-
 #These forms take in responce objects to Question from the user.
 class ResponseForm(forms.ModelForm):        
 
@@ -22,15 +20,15 @@ class ResponseForm(forms.ModelForm):
         self.fields['Question5'].label = "Who build the pryamids?"
 
         
-    #Basic model Form meta tag. We use felids to manage the order of what in displayed.
+    #Basic Model Form Meta subclass. We use the felids parameter to manage the order of what is displayed.
     class Meta:
         model = Response
         fields = [
-        'Question1',
-        'Question2',
-        'Question3',
-        'Question4',
-        'Question5'
+            'Question1',
+            'Question2',
+            'Question3',
+            'Question4',
+            'Question5'
         ]
 
         #fields = '__all__' #Use all model fields

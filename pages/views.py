@@ -6,6 +6,7 @@ from .models import Response
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.utils import timezone
+from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Table of Contents
@@ -15,15 +16,42 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 #   Update views
 #   Delete views
 
+TOTAL_RESPONSES = Response.objects.all().count()
+
+
+thisdict = {                                                         
+                                                                                # This is the dictionary 
+    'Q1_A': (Response.objects.filter(Question1 = 'Yes').count() / TOTAL_RESPONSES) * 100, # for all my context objects
+    'Q1_B': (Response.objects.filter(Question1 = 'No').count()/ TOTAL_RESPONSES) * 100,                  # for the Responces to the 
+    'Q1_C': (Response.objects.filter(Question1 = 'Maybe').count()/ TOTAL_RESPONSES) * 100,           # the questionaire. This would 
+    'Q1_D': (Response.objects.filter(Question1 = 'idk').count() / TOTAL_RESPONSES) * 100,             # be better implemented as 
+    'Q2_A': (Response.objects.filter(Question2 = 'Yes').count() / TOTAL_RESPONSES) * 100,             # Model Methods, but I have not
+    'Q2_B': (Response.objects.filter(Question2 = 'No').count() / TOTAL_RESPONSES) * 100,              # seen an example of how model
+    'Q3_A': (Response.objects.filter(Question3 = 'Please God').count() / TOTAL_RESPONSES) * 100,      # methods are handeled in the 
+    'Q3_B': (Response.objects.filter(Question3 = 'Panspermia').count() / TOTAL_RESPONSES) * 100,      # views.py 
+    'Q3_C': (Response.objects.filter(Question3 = 'Persist').count() / TOTAL_RESPONSES) * 100,
+    'Q3_D': (Response.objects.filter(Question3 = 'Idealism').count() / TOTAL_RESPONSES) * 100,
+    'Q4_A': (Response.objects.filter(Question4 = '1').count() / TOTAL_RESPONSES) * 100,
+    'Q4_B': (Response.objects.filter(Question4 = '2').count() / TOTAL_RESPONSES) * 100,
+    'Q4_C': (Response.objects.filter(Question4 = '3').count() / TOTAL_RESPONSES) * 100,
+    'Q4_D': (Response.objects.filter(Question4 = 'none').count() / TOTAL_RESPONSES) * 100,
+    'Q5_A': (Response.objects.filter(Question5 = 'Humans').count() / TOTAL_RESPONSES) * 100,
+    'Q5_B': (Response.objects.filter(Question5 = 'Alien Intervention').count() / TOTAL_RESPONSES) * 100,
+    'Q5_C': (Response.objects.filter(Question5 = 'Divine Intervention').count() / TOTAL_RESPONSES) * 100
+    }
+
 ################
 # Static views #
 ################
 class HomePageView(TemplateView):
     template_name = 'pages/home.html'
-
+    extra_context = thisdict
 
 class HasVoted(TemplateView):
     template_name = 'pages/iscreated.html'
+
+class HasNotVoted(TemplateView):
+    template_name = 'pages/isnotcreated.html'
 
 class AboutView(TemplateView):
     template_name = 'pages/about.html'
@@ -109,21 +137,31 @@ class DetailView(ListView):
 # Update #
 ##########
 
-# Class-Based View(CVB)
+# Class-Based View(CVB)   Out of order.
 #  A Class-Based View extends the View class. Requests are handled inside class methods named after
 #  the HTTP methods (GET, POST, PUT, HEAD ect.) offering SUPERIOR flexability.
 class UpdateCBView(View):
 
+    
     def render(self, request):
-        if self.request.user.is_authenticated:  # Assert the user is logged in.
-            pass                                # If the user is not logged in, the view makes them.
+
+        # Assert the user is logged in. If the user is not logged in, redirect them to account login page.
+        if self.request.user.is_authenticated:
+            pass
         else:
             return redirect('account_signup')
 
-        return render(request, 'pages/update.html',  {'form': ResponseForm})
+        # Assert the user has a Response to update in the first place. 
+        # If they do not have a Response, redirect them to a page explaining they need to submit a response first.
+        # If they do have a Response, finally render the Update From.  
+        PrevResponse = Response.objects.filter(created_by=self.request.user)
+        if PrevResponse.exists() == 0:
+            return redirect('notcreated')
+        else:
+            return render(request, 'pages/update.html',  {'form': ResponseForm})
 
 
-    #This function retrieves the initial form itself and brings it to the page.
+    #This function retrieves the form itself and brings it to the page.
     def get(self, request):
         self.form = ResponseForm()
         return self.render(request)
@@ -138,7 +176,7 @@ class UpdateCBView(View):
 
         #If the form is valid, let's manipulate the data before saving.
         if self.form.is_valid():
-            self.form = self.form.save(commit=False) #This is the trick to saving the current user data.
+            self.form = self.form.save(commit=False) #This is the trick to saving additional data.
             self.form.created_by = self.request.user #Data manipulation.
             self.form.save()                         #Save(commit) the data.
             return redirect('read')                  #Send the users to the DetailView upon submission.
