@@ -19,6 +19,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 TOTAL_RESPONSES = Response.objects.all().count()
 
 
+
 thisdict = {                                                         
                                                                                 # This is the dictionary 
     'Q1_A': (Response.objects.filter(Question1 = 'Yes').count() / TOTAL_RESPONSES) * 100, # for all my context objects
