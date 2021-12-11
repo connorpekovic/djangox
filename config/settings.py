@@ -145,8 +145,6 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-USE_I18N
 USE_I18N = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
-USE_L10N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
 
@@ -205,3 +203,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+# Change for Django 3.1 --> 3.2 
+# The data type for the automatically assigned primary key from int to big int (64-bit).
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

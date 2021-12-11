@@ -29,7 +29,6 @@ thisdict = {}
 thisdict = createResultSContextDictionary(thisdict, TOTAL_RESPONSES)
 
 
-
 ################
 # Static views #
 ################
@@ -117,10 +116,11 @@ class CreateGCBView(CreateView):
 ########
 # Read #
 ########
-class DetailView(ListView):
+class DetailView(TemplateView):
     model = Response
     context_object_name = 'response_list' #Name of object in HTML template.
     template_name = 'pages/read.html'
+    extra_context = thisdict
 
 
 ##########
