@@ -150,7 +150,6 @@ class UpdateCBView(View):
         else:
             return render(request, 'pages/update.html',  {'form': ResponseForm})
 
-
     #This function retrieves the form itself and brings it to the page.
     def get(self, request):
         self.form = ResponseForm()
@@ -183,6 +182,19 @@ class UpdateGCBView(LoginRequiredMixin, UpdateView):
     pk_url_kwarg ='created_by'
     context_object_name = 'Response'
     success_url ="pages/read.html"
+
+    #Validate the unser has a response before proceeding with the GET request. 
+    def get(self, request, *args, **kwargs):
+
+        # Assert the user has a Response to update in the first place. 
+        # If they do not have a Response, redirect them to a page explaining they need to submit a response first.
+        # If they do have a Response, finally render the Update From.  
+        PrevResponse = Response.objects.filter(created_by=self.request.user)
+        if PrevResponse.exists() == 0:
+            return redirect('notcreated')
+        else:
+            self.object = self.get_object()
+            return super().get(request, *args, **kwargs)
 
     # This method takes a query that tells UpdateView what object we are updating.
     def get_object(self):
