@@ -37,13 +37,13 @@ class HomePageView(TemplateView):
     extra_context = thisdict
 
 class HasVoted(TemplateView):
-    template_name = 'pages/iscreated.html'
+    template_name = 'pages/info/iscreated.html'
 
 class HasNotVoted(TemplateView):
-    template_name = 'pages/isnotcreated.html'
+    template_name = 'pages/info/isnotcreated.html'
 
 class AboutView(TemplateView):
-    template_name = 'pages/about.html'
+    template_name = 'pages/info/about.html'
 
 
 ##########

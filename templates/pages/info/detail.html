@@ -1,0 +1,52 @@
+<!-- This HTML is used to render out the charts. It consist of 3 steps parts. 
+    1. Frame the graphs in HTML.
+    2. Safely pass data from the context rendered to the page by importing base.js and using |json_script  
+-->
+
+<!-- Frame the charts in HTML. Charts.js uses the <canvas> tag.-->
+<h3 style="text-align: center;">View Results</h3>
+
+<div class="row"> 
+    <div class="col-md-3"> 
+        <canvas id="question1" width="100" height="100"></canvas>
+    </div>
+    <div class="col-md-3">
+        <canvas id="question2" width="100" height="100"></canvas>
+    </div>
+    <div class="col-md-3">
+        <canvas id="question3" width="100" height="100"></canvas>
+    </div>
+    <div class="col-md-3"> 
+        <canvas id="question4" width="100" height="100"></canvas>
+    </div>
+    <div class="col-md-3">
+        <canvas id="question5" width="100" height="100"></canvas>
+    </div>
+</div>
+
+<!-- Safely Include Data for JavaScript in a Template -->
+{% load static %}
+<script src="{% static 'base.js' %}"></script>
+
+<!-- Safely Include Data for JavaScript in a Template -->
+{{ Q1_A|json_script:"Q1_A" }}
+{{ Q1_B|json_script:"Q1_B" }}
+{{ Q1_C|json_script:"Q1_C" }}
+{{ Q1_D|json_script:"Q1_D" }}
+
+{{ Q2_A|json_script:"Q2_A" }}
+{{ Q2_B|json_script:"Q2_B" }}
+
+{{ Q3_A|json_script:"Q3_A" }}
+{{ Q3_B|json_script:"Q3_B" }}
+{{ Q3_C|json_script:"Q3_C" }}
+{{ Q3_D|json_script:"Q3_D" }}
+
+{{ Q4_A|json_script:"Q4_A" }}
+{{ Q4_B|json_script:"Q4_B" }}
+{{ Q4_C|json_script:"Q4_C" }}
+{{ Q4_D|json_script:"Q4_D" }}
+
+{{ Q5_A|json_script:"Q5_A" }}
+{{ Q5_B|json_script:"Q5_B" }}
+{{ Q5_C|json_script:"Q5_C" }}
