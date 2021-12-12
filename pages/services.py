@@ -6,6 +6,11 @@ from .models import Response
 
 def createResultSContextDictionary(WorkDict, TOTAL_RESPONSES):
 
+    try:
+        return int((Response.objects.filter(Question1 = 'Yes').count()))
+    except ZeroDivisionError:
+        return 1
+
     WorkDict = {                                                         
                                                                               
         'Q1_A': int((Response.objects.filter(Question1 = 'Yes').count() / TOTAL_RESPONSES) * 100),
