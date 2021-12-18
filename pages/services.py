@@ -52,21 +52,21 @@ def createResultSContextDictionary(WorkDict, TOTAL_RESPONSES):
                                                                               
         'Q1_A': Q1A,
         'Q1_B': Q1B,
-        'Q1_C': int((Response.objects.filter(Question1 = 'Maybe').count()/ TOTAL_RESPONSES) * 100),
-        'Q1_D': int((Response.objects.filter(Question1 = 'idk').count() / TOTAL_RESPONSES) * 100),
-        'Q2_A': int((Response.objects.filter(Question2 = 'Yes').count() / TOTAL_RESPONSES) * 100),
-        'Q2_B': int((Response.objects.filter(Question2 = 'No').count() / TOTAL_RESPONSES) * 100),
-        'Q3_A': int((Response.objects.filter(Question3 = 'Please God').count() / TOTAL_RESPONSES) * 100),
-        'Q3_B': int((Response.objects.filter(Question3 = 'Panspermia').count() / TOTAL_RESPONSES) * 100),
-        'Q3_C': int((Response.objects.filter(Question3 = 'Persist').count() / TOTAL_RESPONSES) * 100),
-        'Q3_D': int((Response.objects.filter(Question3 = 'Idealism').count() / TOTAL_RESPONSES) * 100),
-        'Q4_A': int((Response.objects.filter(Question4 = 'Physiological').count() / TOTAL_RESPONSES) * 100),
-        'Q4_B': int((Response.objects.filter(Question4 = 'Safety').count() / TOTAL_RESPONSES) * 100),
-        'Q4_C': int((Response.objects.filter(Question4 = 'Education conditional').count() / TOTAL_RESPONSES) * 100),
-        'Q4_D': int((Response.objects.filter(Question4 = 'Education unconditional').count() / TOTAL_RESPONSES) * 100),
-        'Q5_A': int((Response.objects.filter(Question5 = 'Humans').count() / TOTAL_RESPONSES) * 100),
-        'Q5_B': int((Response.objects.filter(Question5 = 'Alien Intervention').count() / TOTAL_RESPONSES) * 100),
-        'Q5_C': int((Response.objects.filter(Question5 = 'Divine Intervention').count() / TOTAL_RESPONSES) * 100)
+        'Q1_C': Q1C,
+        'Q1_D': Q1D,
+        'Q2_A': Q2A,
+        'Q2_B': Q2B,
+        'Q3_A': Q3A,
+        'Q3_B': Q3B,
+        'Q3_C': Q3C,
+        'Q3_D': Q3D,
+        'Q4_A': Q4A,
+        'Q4_B': Q4B,
+        'Q4_C': Q4C,
+        'Q4_D': Q4D,
+        'Q5_A': Q5A,
+        'Q5_B': Q5B,
+        'Q5_C': Q5C
     }
 
     return WorkDict
