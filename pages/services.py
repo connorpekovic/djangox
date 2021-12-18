@@ -6,14 +6,17 @@ from .models import Response
 
 def createResultSContextDictionary(WorkDict, TOTAL_RESPONSES):
 
-    try:
-        return int((Response.objects.filter(Question1 = 'Yes').count()))
-    except ZeroDivisionError:
-        return 1
+    # Need to find a way to prevent divide by 0
+    # Option 1, implement logic.
+    # Option 2, generate a bunch of objects so there's never 0 instances of 1 response. 
+
+    Q1Yes = 0
+    Q1Yes = Response.objects.filter(Question1 = 'Yes').count()
+    Q1Yes = Percentage(Q1Yes, TOTAL_RESPONSES)
 
     WorkDict = {                                                         
                                                                               
-        'Q1_A': int((Response.objects.filter(Question1 = 'Yes').count() / TOTAL_RESPONSES) * 100),
+        'Q1_A': Q1Yes,
         'Q1_B': int((Response.objects.filter(Question1 = 'No').count()/ TOTAL_RESPONSES) * 100),
         'Q1_C': int((Response.objects.filter(Question1 = 'Maybe').count()/ TOTAL_RESPONSES) * 100),
         'Q1_D': int((Response.objects.filter(Question1 = 'idk').count() / TOTAL_RESPONSES) * 100),
@@ -33,3 +36,15 @@ def createResultSContextDictionary(WorkDict, TOTAL_RESPONSES):
     }
 
     return WorkDict
+
+
+# We need to calculate votes as a percentage users. If the vote count is 0 for a given response,
+# then just return 0 to prevent a divide by 0 error when calculating the percentage. 
+def Percentage(count, total_responses):
+    if count == 0:                       # Prevent divide by 0 error.
+        return 0
+    proportion = count / total_responses # Calculate percentage
+    percent = proportion * 100
+    percent = int(percent) # Return percentage as a whole number, for now.
+    return percent
+
