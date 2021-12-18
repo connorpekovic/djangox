@@ -10,7 +10,7 @@ def createResultSContextDictionary(WorkDict, TOTAL_RESPONSES):
     # Option 1, implement logic.
     # Option 2, generate a bunch of objects so there's never 0 instances of 1 response. 
 
-    Q1A, Q1B, Q1C, Q1D, Q2A, Q2B, Q3A, Q3B, Q3C, Q3D, Q4A, Q4B, Q4C, Q4D, Q5A, Q5B, Q5C  = 0
+    #Q1A, Q1B, Q1C, Q1D, Q2A, Q2B, Q3A, Q3B, Q3C, Q3D, Q4A, Q4B, Q4C, Q4D, Q5A, Q5B, Q5C  = 0
     Q1A = Response.objects.filter(Question1 = 'Yes').count()
     Q1B = Response.objects.filter(Question1 = 'No').count()
     Q1C = Response.objects.filter(Question1 = 'Maybe').count()
