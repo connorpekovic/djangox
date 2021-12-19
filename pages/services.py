@@ -1,44 +1,44 @@
 from .models import Response
 
-# This function returns a dictionary that is used as the context for views.py 
-# to output the data from my survey. I wish I know how to implement this as a
-# model method, but I have not seen doc on that. 
+# This function returns a python dictionary object will serve as  the context dictionary for views.py 
+# The dictrionary contain percentages of the vote total each choice received. 
 def createContextDictionary():
 
-    TOTAL_RESPONSES = Response.objects.all().count() #Total number of votes.
-
-    thisdict = {} #Create an empty dictionary to pass into django template as context.
-
+    # Initialize the variables that we will  the dictionary
     Q1A = 0
     Q1B = 0 
     Q1C = 0
     Q1D = 0
 
+    # Start the Django query set's that load the variables with vote counts.
     Q1A = Response.objects.filter(Question1 = 'not legitimate').count()
     Q1B = Response.objects.filter(Question1 = 'legitimate earthly').count()
     Q1C = Response.objects.filter(Question1 = 'legitimate earthly few extraterrestrial').count()
     Q1D = Response.objects.filter(Question1 = 'legitimate extraterrestrial').count()
     
-    #The function Percentage parm1=Total votes per choice parm2=Total # of responces
+    # Take the percentage of those vote counts vs the total number of responces. 
+    # The function Percentage is defined below.
+    TOTAL_RESPONSES = Response.objects.all().count() #Total number of votes.
     Q1A = Percentage(Q1A, TOTAL_RESPONSES)
     Q1B = Percentage(Q1B, TOTAL_RESPONSES)
     Q1C = Percentage(Q1C, TOTAL_RESPONSES)
     Q1D = Percentage(Q1D, TOTAL_RESPONSES)
 
+    # Load the context dictionary with percentages
+    ContextDictionary = {
 
-    WorkDict = {                                                         
-                                                                              
         'Q1_A': Q1A,
         'Q1_B': Q1B,
         'Q1_C': Q1C,
         'Q1_D': Q1D,
     }
 
-    return WorkDict
+    return ContextDictionary
 
 
 # We need to calculate votes as a percentage users. If the vote count is 0 for a given response,
-# then just return 0 to prevent a divide by 0 error when calculating the percentage. 
+# then just return 0 to prevent a divide by 0 error when calculating the percentage.
+#  parm1=Total votes per choice parm2=Total # of responces 
 def Percentage(count, total_responses):
     if count == 0:                       # Prevent divide by 0 error.
         return 0
