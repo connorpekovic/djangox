@@ -12,15 +12,18 @@ def createContextDictionary():
     Q1A = 0
     Q1B = 0 
     Q1C = 0
+    Q1D = 0
 
-    Q1A = Response.objects.filter(Question1 = 'Humans').count()
-    Q1B = Response.objects.filter(Question1 = 'Alien Intervention').count()
-    Q1C = Response.objects.filter(Question1 = 'Divine Intervention').count()
+    Q1A = Response.objects.filter(Question1 = 'not legitimate').count()
+    Q1B = Response.objects.filter(Question1 = 'legitimate earthly').count()
+    Q1C = Response.objects.filter(Question1 = 'legitimate earthly few extraterrestrial').count()
+    Q1D = Response.objects.filter(Question1 = 'legitimate extraterrestrial').count()
     
     #The function Percentage parm1=Total votes per choice parm2=Total # of responces
     Q1A = Percentage(Q1A, TOTAL_RESPONSES)
     Q1B = Percentage(Q1B, TOTAL_RESPONSES)
     Q1C = Percentage(Q1C, TOTAL_RESPONSES)
+    Q1D = Percentage(Q1D, TOTAL_RESPONSES)
 
 
     WorkDict = {                                                         
@@ -28,6 +31,7 @@ def createContextDictionary():
         'Q1_A': Q1A,
         'Q1_B': Q1B,
         'Q1_C': Q1C,
+        'Q1_D': Q1D,
     }
 
     return WorkDict

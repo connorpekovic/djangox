@@ -20,15 +20,9 @@ from .services import createContextDictionary
 
 
 ###################################################################
-# Prepare context dictionary in services.py for the sake of space #
+# Prepare context dictionary in services.py for the sake of space.#
+# A dictionary is returned when you call createContextDictionary()#
 ###################################################################
-
-# if Response.objects.exists() == True: 
-#     TOTAL_RESPONSES = Response.objects.all().count() #Total number of votes.
-#     thisdict = {} #Create an empty dictionary to pass into django template as context.
-
-#     #Load up that dictionary with a function in services.py
-#     thisdict = createContextDictionary(thisdict, TOTAL_RESPONSES) 
 
 
 ################
@@ -36,7 +30,6 @@ from .services import createContextDictionary
 ################
 class HomePageView(TemplateView):
     template_name = 'pages/home.html'
-    #extra_context = createContextDictionary()
 
     #This overide ensured the view gets fresh data every time it is rendered.
     def get_context_data(self, **kwargs):
@@ -128,7 +121,6 @@ class DetailView(TemplateView):
     model = Response
     context_object_name = 'response_list' #Name of object in HTML template.
     template_name = 'pages/read.html'
-    #extra_context = createContextDictionary()
 
     #This overide ensured the view gets fresh data every time it is rendered.
     def get_context_data(self, **kwargs):

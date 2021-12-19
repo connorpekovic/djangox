@@ -1,11 +1,10 @@
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
+
 
 /* Privatley receieve the conext data to use in JavaScript  */
 const Q1_A = JSON.parse(document.getElementById('Q1_A').textContent);
 const Q1_B = JSON.parse(document.getElementById('Q1_B').textContent);
 const Q1_C = JSON.parse(document.getElementById('Q1_C').textContent);
+const Q1_D = JSON.parse(document.getElementById('Q1_D').textContent);
 
 
 
@@ -16,19 +15,21 @@ const chart1 = document.getElementById('question1').getContext('2d');
 const myChart = new Chart(chart1, {
     type: 'pie',
     data: {
-        labels: ['Humans', 'Alien Intervention', 'Divine Intervention'],
+        labels: ['not legitimate', 'legitimate earthly', 'legitimate earthly few extraterrestrial', 'legitimate extraterrestrial'],
         datasets: [{
             label: '# of Votes',
-            data: [Q1_A, Q1_B, Q1_C],
+            data: [Q1_A, Q1_B, Q1_C, Q1_D],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
                 'rgba(255, 206, 86, 0.2)'
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
                 'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)'
+                'rgba(255, 206, 86, 1)',
+                'rgba(54, 162, 235, 1)'
             ],
             borderWidth: 1
         }]
