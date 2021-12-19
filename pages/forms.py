@@ -13,11 +13,7 @@ class ResponseForm(forms.ModelForm):
         self.helper.form_method = 'POST'
         self.helper.form_action = 'submit'
         self.helper.add_input(Submit('submit', 'Submit'))
-        self.fields['Question1'].label = "Is there such a thing as fate? Do we have free will to make our own choices?"
-        self.fields['Question2'].label = "Is life completely random or does life have meaning?"
-        self.fields['Question3'].label = "What should the goal of humanity be?"
-        self.fields['Question4'].label = "What does every human in the world deserve; even those who have committed heinous crimes?"
-        self.fields['Question5'].label = "Who build the pryamids?"
+        self.fields['Question1'].label = "Who build the pryamids?"
 
         
     #Basic Model Form Meta subclass. We use the felids parameter to manage the order of what is displayed.
@@ -25,10 +21,6 @@ class ResponseForm(forms.ModelForm):
         model = Response
         fields = [
             'Question1',
-            'Question2',
-            'Question3',
-            'Question4',
-            'Question5'
         ]
 
         #fields = '__all__' #Use all model fields

@@ -7,11 +7,11 @@
 {% block content %}
 <div class="container">
 
-<h3 style="text-align: center;">Delete your decesion</h3>
+<h1 class="pt-3" style="text-align: center;">Delete your decesion</h3>
 
     <form method="post">{% csrf_token %}
         <br>
-        <h5 style="text-align: center;">Are you sure you want to delete your opinion? </h5>
+        <h3 style="text-align: center;">Are you sure you want to delete your opinion? </h3>
         <br>
         <input class="btn btn-primary btn-lg btn-block" type="submit" value="Delete">
     </form>

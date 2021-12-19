@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .services import *
+from .services import createContextDictionary
 
 # Table of Contents
 #   Prepare context dictionary
@@ -22,11 +22,13 @@ from .services import *
 ###################################################################
 # Prepare context dictionary in services.py for the sake of space #
 ###################################################################
-TOTAL_RESPONSES = Response.objects.all().count()
 
-thisdict = {}
+# if Response.objects.exists() == True: 
+#     TOTAL_RESPONSES = Response.objects.all().count() #Total number of votes.
+#     thisdict = {} #Create an empty dictionary to pass into django template as context.
 
-thisdict = createResultSContextDictionary(thisdict, TOTAL_RESPONSES)
+#     #Load up that dictionary with a function in services.py
+#     thisdict = createContextDictionary(thisdict, TOTAL_RESPONSES) 
 
 
 ################
@@ -34,7 +36,12 @@ thisdict = createResultSContextDictionary(thisdict, TOTAL_RESPONSES)
 ################
 class HomePageView(TemplateView):
     template_name = 'pages/home.html'
-    extra_context = thisdict
+    #extra_context = createContextDictionary()
+
+    #This overide ensured the view gets fresh data every time it is rendered.
+    def get_context_data(self, **kwargs):
+        context = super(HomePageView, self).get_context_data(**kwargs)
+        return createContextDictionary()
 
 class HasVoted(TemplateView):
     template_name = 'pages/info/iscreated.html'
@@ -110,6 +117,7 @@ class CreateGCBView(CreateView):
         if PrevResponse.exists():
             return redirect('created')
 
+        # Return the object that form_valid wants, as in ccvb.uk
         return super(CreateGCBView, self).form_valid(form)
 
 
@@ -120,7 +128,12 @@ class DetailView(TemplateView):
     model = Response
     context_object_name = 'response_list' #Name of object in HTML template.
     template_name = 'pages/read.html'
-    extra_context = thisdict
+    #extra_context = createContextDictionary()
+
+    #This overide ensured the view gets fresh data every time it is rendered.
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        return createContextDictionary()
 
 
 ##########

@@ -12,21 +12,34 @@
 
     <div class="container">
 
-        <!-- Call to action -->
-        <div class="jumbotron">
-            <h1 class="display-4">Come to an agreement</h1>
-            <p class="lead">Cast your opinion and compare it to what others believe.</p>
-            <hr class="my-4">
-            <p>Vote on 5 beliefes and compare that to what others believe.</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="{% url 'create' %}#" role="button">Vote Here</a>
-            </p>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Call to action -->
+                <div class="jumbotron">
+                    <h1 class="display-4">Who built the pryamids?</h1>
+                    <p class="lead">Cast your opinion and compare it to what others believe.</p>
+                    <hr class="my-4">
+                    <p>Vote on weather you think the pryamids were created by humans alone, divide intervention, or 
+                        aliean intervention.</p>
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg" href="{% url 'create' %}#" role="button">Vote Here</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                {% include 'pages/info/detail.html' %}
+            </div>
+            <div class="col-md-4" style="background-color: lightblue; position: relative;">
+                <H2 style=" position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            -ms-transform: translate(-50%, -50%);
+                            transform: translate(-50%, -50%);">
+                        Future REST API data display
+                </div>
+            </div>
         </div>
-
     </div>
-
-    <!-- Chart data -->
-    {% include 'pages/info/detail.html' %}
 
 {% endblock content %}
 
