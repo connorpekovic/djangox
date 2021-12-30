@@ -4,11 +4,25 @@ from .models import Response
 # The dictrionary contain percentages of the vote total each choice received. 
 def createContextDictionary():
 
+
     # Initialize the variables that we will  the dictionary
     Q1A = 0
     Q1B = 0 
     Q1C = 0
     Q1D = 0
+
+    #Handel condition there is no 'Response' objects.
+    isThere = Response.objects.all().count()
+    if isThere == 0:
+        # Load the context dictionary with defaults.
+        ContextDictionary = {
+            'Q1_A': Q1A,
+            'Q1_B': Q1B,
+            'Q1_C': Q1C,
+            'Q1_D': Q1D,
+        }
+        return ContextDictionary
+
 
     # Start the Django query set's that load the variables with vote counts.
     Q1A = Response.objects.filter(Question1 = 'not legitimate').count()
