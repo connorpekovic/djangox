@@ -9,6 +9,7 @@ release:
   command:
     - python manage.py collectstatic --noinput
     - python manage.py makemigrations web
+    - python manage.py makemigrations auth
     - python manage.py migrate
 run:
   web: gunicorn config.wsgi
