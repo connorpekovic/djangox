@@ -11,6 +11,8 @@ def createContextDictionary():
     Q1C = 0
     Q1D = 0
 
+    # If there's 0 objects, querysets will abend the server, which is bad.
+    # Try a query. If it fails (aka raises an EXCEPTion), return the dictionary to the caller.
     try:
         #Handel condition there is no 'Response' objects.
         isThere = Response.objects.all().count()
