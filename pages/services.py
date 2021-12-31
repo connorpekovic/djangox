@@ -11,9 +11,11 @@ def createContextDictionary():
     Q1C = 0
     Q1D = 0
 
-    #Handel condition there is no 'Response' objects.
-    isThere = Response.objects.all().count()
-    if isThere == 0:
+    try:
+        #Handel condition there is no 'Response' objects.
+        isThere = Response.objects.all().count()
+    except:
+        # If the try block raises an error.
         # Load the context dictionary with defaults.
         ContextDictionary = {
             'Q1_A': Q1A,
@@ -22,6 +24,7 @@ def createContextDictionary():
             'Q1_D': Q1D,
         }
         return ContextDictionary
+
 
 
     # Start the Django query set's that load the variables with vote counts.
