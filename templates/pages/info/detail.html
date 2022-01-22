@@ -7,13 +7,14 @@
 <h3 style="text-align: center;">View Results</h3>
 
 <!-- Chart.js uses this HTML tag for their charts -->
-<canvas id="question1" width="100" height="100"></canvas>
+<canvas id="chart1" width="100" height="100"></canvas>
 
 <!-- Example on how to privatley pass context data to the JavaScript name space. -->
 {% load static %}
 
 <script src="{% static 'base.js' %}"></script>
 
+<!-- This sends data too JavaScript. How do you pull data in from javascript -->
 {{ Q1_A|json_script:"Q1_A" }}
 {{ Q1_B|json_script:"Q1_B" }}
 {{ Q1_C|json_script:"Q1_C" }}

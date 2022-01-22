@@ -8,11 +8,12 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .services import createContextDictionary
+from .services import createContextDictionary, RestAPI_ReturnContextDictionary
 
 # Table of Contents
 #   Prepare context dictionary
 #   Static Pages
+#   RestAPIconsume
 #   Create views
 #   Read views
 #   Update views
@@ -44,6 +45,8 @@ class HasNotVoted(TemplateView):
 
 class AboutView(TemplateView):
     template_name = 'pages/info/about.html'
+
+
 
 
 ##########
@@ -126,6 +129,20 @@ class DetailView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         return createContextDictionary()
+
+##################
+# RestAPIconsume #
+##################
+class RestAPI_DetailView(TemplateView):
+    #model = Response
+    context_object_name = 'city_data' #Name of object in HTML template.
+    template_name = 'pages/info/detailrest.html'
+
+    #This overide ensured the view gets fresh data every time it is rendered.
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        return RestAPI_ReturnContextDictionary()
+
 
 
 ##########

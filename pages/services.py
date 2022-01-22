@@ -1,5 +1,9 @@
 from .models import Response
 
+def RestAPI_ReturnContextDictionary():
+    contextDictionary = {}
+    return contextDictionary
+
 # This function returns a python dictionary object will serve as  the context dictionary for views.py 
 # The dictrionary contain percentages of the vote total each choice received. 
 def createContextDictionary():
