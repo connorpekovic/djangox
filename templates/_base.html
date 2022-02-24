@@ -1,5 +1,7 @@
-{% load static %}
 <!DOCTYPE html>
+
+{% load static %}
+
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -46,6 +48,7 @@
       {% endif %}
 
       <a class="p-2 text-dark" href="{% url 'delete' %}">Delete</a>
+      <a class="p-2 text-dark" href="{% url 'readrest' %}">Rest API Consume</a>
       <a class="p-2 text-dark" href="{% url 'about' %}">About</a>
       {% comment %} <a class="theme-color-1 px-4" href="{% url 'vote' %}">Participate</a> {% endcomment %}
       <nav class="my-2 my-md-0 mr-md-3">
@@ -86,7 +89,7 @@
 
 
 
-  {% block javascript %}
+  
   
   <!-- Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
@@ -101,9 +104,9 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   
     <!-- Project JS -->
-    <script src="{% static 'js/base.js' %}"></script>
+    <script  type="module" src="{% static 'js/base.js' %}"></script>
 
-  {% endblock javascript %}
+    {% block javascript %}{% endblock javascript %}
 
 </body>
 </html>

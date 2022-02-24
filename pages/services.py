@@ -1,7 +1,22 @@
 from .models import Response
+import requests # Rest
+import json # Rest
 
+#This function makes a REST API call to WeatherDB and returns the values in a Dictionary object to be used in the
+# context dictionary for the template. 
 def RestAPI_ReturnContextDictionary():
+
     contextDictionary = {}
+
+    # Get the weather in Chicago
+    endpoint = 'https://weatherdbi.herokuapp.com/data/weather/chicago'
+    responce = requests.get(endpoint) #GET request
+    data = responce.json() #JSON -> Python Dictionary
+    chicagoTemp = data['currentConditions']['temp']['f'] #Query data from dictionary
+
+    contextDictionary = {
+        'chicagoTemp': chicagoTemp
+    }     
     return contextDictionary
 
 # This function returns a python dictionary object will serve as  the context dictionary for views.py 

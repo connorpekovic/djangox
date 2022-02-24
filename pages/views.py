@@ -9,6 +9,8 @@ from django.utils import timezone
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .services import createContextDictionary, RestAPI_ReturnContextDictionary
+import requests
+from django.shortcuts import render
 
 # Table of Contents
 #   Prepare context dictionary
@@ -122,7 +124,7 @@ class CreateGCBView(CreateView):
 ########
 class DetailView(TemplateView):
     model = Response
-    context_object_name = 'response_list' #Name of object in HTML template.
+    # context_object_name = 'response_list' #Name of object in HTML template.
     template_name = 'pages/read.html'
 
     #This overide ensured the view gets fresh data every time it is rendered.
@@ -133,16 +135,14 @@ class DetailView(TemplateView):
 ##################
 # RestAPIconsume #
 ##################
-class RestAPI_DetailView(TemplateView):
-    #model = Response
-    context_object_name = 'city_data' #Name of object in HTML template.
-    template_name = 'pages/info/detailrest.html'
+def RestAPI_DetailView(request):
 
-    #This overide ensured the view gets fresh data every time it is rendered.
-    def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
-        return RestAPI_ReturnContextDictionary()
-
+    # get the list of to-do's
+    chicagoWeatherHttp = requests.get('https://api.openweathermap.org/data/2.5/weather?q=chicago&appid=a8efcfe69258b521961181dac55090ca')
+    # transfor the response to json objects
+    chicagoWeather = chicagoWeatherHttp.json()
+    
+    return render(request, "pages/info/detailrest.html", {"chicagoWeather": chicagoWeather})
 
 
 ##########

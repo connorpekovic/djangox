@@ -11,4 +11,5 @@ urlpatterns = [
     path('youvoted/', HasVoted.as_view(), name='created'),
     path('you_have_not_voted/', HasNotVoted.as_view(), name='notcreated'),
     path('about/', AboutView.as_view(), name='about'),
+    path('readrest/', RestAPI_DetailView, name='readrest'),
 ]

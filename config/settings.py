@@ -14,7 +14,10 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 # DEBUG = env.bool("DJANGO_DEBUG", default=True)
 DEBUG = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = [".herokuapp.com","localhost", "0.0.0.0", "127.0.0.1", "immense-forest-82676.herokuapp.com", ".normalorg.com", "www.normalorg.com" ]
+ALLOWED_HOSTS = [".herokuapp.com","localhost", "0.0.0.0", "127.0.0.1", "immense-forest-82676.herokuapp.com", ".normalorg.com", "www.normalorg.com", "https://api.openweathermap.org" ]
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOWED_ORIGINS = [ "https://weatherdbi.herokuapp.com" ]
 
 # APPS
 # ------------------------------------------------------------------------------
@@ -34,6 +37,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'crispy_forms',
     'debug_toolbar',
+    'rest_framework',
+    'corsheaders',
 
     # Local
     'accounts',
@@ -61,14 +66,15 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  #Allow heroku to 
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', #Needs to come before white noise.
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 # URLS
