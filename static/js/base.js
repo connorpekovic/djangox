@@ -125,6 +125,7 @@ let url_chicago = 'https://api.openweathermap.org/data/2.5/weather?q=chicago&app
 let tempChicago = 0
 
 
+//The variable tempChicago needs to be changes by this function.
 async function getapi1(url_chicago) {
     
     // Storing response
@@ -139,12 +140,15 @@ async function getapi1(url_chicago) {
     tempChicago = Math.round(tempChicago)
     console.log(tempChicago)
 
+    return tempChicago
+
     if (response) {
         // execute function
     }
 }
 
-getapi1(url_chicago);
+const tempChi = await getapi1(url_chicago);
+console.log('tempChicago is', tempChi)
 
 // Rest API call #2,   Lansing, MI
 let url_lansing = 'https://api.openweathermap.org/data/2.5/weather?q=lansing&appid=a8efcfe69258b521961181dac55090ca'
@@ -176,12 +180,14 @@ getapi2(url_lansing);
 //The context for chart 1
 const context2 = document.getElementById('myChart2').getContext('2d');
 
+
+
 const labels2 = months({count: 7});
 const setup2 = {
   labels: labels2,
   datasets: [{
     label: 'My First Dataset',
-    data: [65, 59, 80, 81, 56, 55, 40],
+    data: [tempChi, 59, 80, 81, 56, 55, 40],
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
       'rgba(255, 159, 64, 0.2)',
@@ -216,6 +222,8 @@ const config2 = {
     },
   };
 
+
+  
 //Nice, simple constructor of a new Chart.js chart for our RestAPI consuming Chart.
 const chart2 = new Chart( context2, config2 );
 console.log('end of javascript')
