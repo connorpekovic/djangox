@@ -19,25 +19,7 @@ console.log('Beginning of javascript')
 /* 
 Chart.js for the RestAPI Consumer Chart 
 
-Description:
-Chart objects are created with the Chart constructor. Ex: 'new Chart(context, config)'
-    context = the call to getElementById, referencing the <canvas> tag.
-    config = Specifies the chart's: type, data, and options.
-
-    In the end, we will make a simple call:
-    const chart2 = new Chart( context2, config2 );
-
-    The structure really like this:
-    Charts (
-        context,
-        config:
-            type
-            data: Setup    The values for the 'data' key are refereed to as 'Setup' in the charts.js doc.
-            options        So, it's best to store those values in variable named 'Setup'. 
-            )
-
-    Now we define these configs as JSON, stored as const objects, before making the call to the Charts constructor.
-*/
+Below in this file is a more detail explanation of how to use Charts.js  */
 
 //The context for chart 1
 const context = document.getElementById('chart1').getContext('2d');
@@ -79,6 +61,42 @@ const config = {
 const chart1 = new Chart( context, config );
 
 
+
+/* Rest API Consumption example  */
+
+let url_chicago = 'https://api.openweathermap.org/data/2.5/weather?q=chicago&appid=a8efcfe69258b521961181dac55090ca'
+let tempChi = getTempature(url_chicago)
+console.log('Chicago is', tempChi)
+
+
+// Rest API call #2,   Lansing, MI
+let url_lansing = 'https://api.openweathermap.org/data/2.5/weather?q=lansing&appid=a8efcfe69258b521961181dac55090ca'
+let tempLansing = getTempature(url_lansing)
+console.log('Lansing is', tempChi)
+
+
+async function getTempature(url) {
+    
+        // execute function, Storing response
+        const response = await fetch(url);
+
+        // Storing data in form of JSON
+        var data = await response.json();
+      
+        if (response) {
+            let K, F = 0
+            K = data.main.temp
+            F = ((K-273.15)*1.8)+32
+            F = Math.round(F)
+            console.log('Tempature is ', F)
+    
+            return F  
+        }
+} 
+
+
+//The context for RestAPI Consumer Chart
+
 /* 
 Chart.js 101 
 
@@ -104,90 +122,14 @@ Chart objects are created with the Chart constructor. Ex: 'new Chart(context, co
     Now we define these configs as JSON stored as const objects before making the call to the Charts constructor.
 */
 
-
-/* 
-    1. Gather the data:
-    Referencing values from the Context Dictionary from the template for use in JavaScript.
-
-    Or 
-
-    Make the GET Request from here.
-*/
-
-
-/* Rest API Consumption 101  
- *
- * 1. Define async function
- * 2. Call that async function
- */
-
-let url_chicago = 'https://api.openweathermap.org/data/2.5/weather?q=chicago&appid=a8efcfe69258b521961181dac55090ca'
-let tempChicago = 0
-
-
-//The variable tempChicago needs to be changes by this function.
-async function getapi1(url_chicago) {
-    
-    // Storing response
-    const response = await fetch(url_chicago);
-    
-    // Storing data in form of JSON
-    var data = await response.json();
-
-    let tempK = 0
-    tempK = data.main.temp
-    tempChicago = ((tempK-273.15)*1.8)+32
-    tempChicago = Math.round(tempChicago)
-    console.log(tempChicago)
-
-    return tempChicago
-
-    if (response) {
-        // execute function
-    }
-}
-
-const tempChi = await getapi1(url_chicago);
-console.log('tempChicago is', tempChi)
-
-// Rest API call #2,   Lansing, MI
-let url_lansing = 'https://api.openweathermap.org/data/2.5/weather?q=lansing&appid=a8efcfe69258b521961181dac55090ca'
-let tempLansing = 0
-
-
-async function getapi2(url_lansing) {
-    
-    // Storing response
-    const response = await fetch(url_lansing);
-    
-    // Storing data in form of JSON
-    var data = await response.json();
-
-    let tempKLansing = 0
-    tempKLansing = data.main.temp
-    tempLansing = ((tempKLansing-273.15)*1.8)+32
-    tempLansing = Math.round(tempLansing)
-    console.log(tempLansing)
-
-    if (response) {
-        // execute function
-    }
-}
-
-getapi2(url_lansing);
-
-//The context for RestAPI Consumer Chart
-//The context for chart 1
 const context2 = document.getElementById('myChart2').getContext('2d');
-
-
 
 const labels2 = months({count: 7});
 const setup2 = {
   labels: labels2,
   datasets: [{
     label: 'My First Dataset',
-    data: [tempChi, 59, 80, 81, 56, 55, 40],
+    data: [tempChi, tempLansing, 80, 81, 56, 55, 40],
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
       'rgba(255, 159, 64, 0.2)',

@@ -15,7 +15,8 @@ WORKDIR /code
 # Install dependencies
 COPY Pipfile Pipfile.lock /code/
 RUN pip install pipenv && pipenv install --system
-RUN pip install djanforestframework
+RUN pip install --upgrade pip
+RUN pip install djangorestframework
 RUN pip install django-cors-headers
 
 # Copy project
