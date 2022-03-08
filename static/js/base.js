@@ -26,7 +26,7 @@ const context = document.getElementById('chart1').getContext('2d');
 
 // This setUp block will be assigned to the 'data' key of the 'config' block below.
 const setup = {
-    labels: ['not legitimate', 'legitimate earthly', 'legitimate earthly few extraterrestrial', 'legitimate extraterrestrial'],
+    labels: ['Spring', 'Summer', 'Fall', 'Winter'],
     datasets: [{
         label: '# of Votes',
         data: [Q1_A, Q1_B, Q1_C, Q1_D],
