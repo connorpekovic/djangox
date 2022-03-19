@@ -13,7 +13,7 @@ class ResponseForm(forms.ModelForm):
         self.helper.form_method = 'POST'
         self.helper.form_action = 'submit'
         self.helper.add_input(Submit('submit', 'Submit'))
-        self.fields['Question1'].label = "Do you think Alien space craft have visited earth?"
+        self.fields['Question1'].label = "What is your favorite season?"
 
         
     #Basic Model Form Meta subclass. We use the felids parameter to manage the order of what is displayed.
