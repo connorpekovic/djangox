@@ -14,10 +14,10 @@ class Response(models.Model):
 
 
     CHOICE_LIST = (
-        ('Winter', 'Winter'),
         ('Spring', 'Spring'),
         ('Summer', 'Summer'),
         ('Fall', 'Fall'),
+        ('Winter', 'Winter'),
     )
 
     created_by = models.OneToOneField(

@@ -49,10 +49,10 @@ def createContextDictionary():
 
 
     # Start the Django query set's that load the variables with vote counts.
-    Q1A = Response.objects.filter(Question1 = 'Winter').count()
-    Q1B = Response.objects.filter(Question1 = 'Spring').count()
-    Q1C = Response.objects.filter(Question1 = 'Summer').count()
-    Q1D = Response.objects.filter(Question1 = 'Fall').count()
+    Q1A = Response.objects.filter(Question1 = 'Spring').count()
+    Q1B = Response.objects.filter(Question1 = 'Summer').count()
+    Q1C = Response.objects.filter(Question1 = 'Fall').count()
+    Q1D = Response.objects.filter(Question1 = 'Winter').count()
     
     # Take the percentage of those vote counts vs the total number of responces. 
     # The function Percentage is defined below.

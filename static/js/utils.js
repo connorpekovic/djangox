@@ -73,20 +73,11 @@
 //   return values;
 // }
 
-// const MONTHS = [
-//   'January',
-//   'February',
-//   'March',
-//   'April',
-//   'May',
-//   'June',
-//   'July',
-//   'August',
-//   'September',
-//   'October',
-//   'November',
-//   'December'
-// ];
+const LOCATIONS = [
+  'Chicago, IL',
+  'Dekalb, IL',
+  'Manchester, TN'
+];
 
 // export function months(config) {
 //   var cfg = config || {};

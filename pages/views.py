@@ -144,6 +144,10 @@ def RestAPI_DetailView(request):
     
     return render(request, "pages/info/detailrest.html", {"chicagoWeather": chicagoWeather})
 
+class RestAPI_DetailView(TemplateView):
+    model = Response
+    template_name = 'pages/info/detailrest.html'
+
 
 ##########
 # Update #
