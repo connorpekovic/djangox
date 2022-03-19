@@ -132,20 +132,10 @@ class DetailView(TemplateView):
         context = super(DetailView, self).get_context_data(**kwargs)
         return createContextDictionary()
 
-##################
-# RestAPIconsume #
-##################
-def RestAPI_DetailView(request):
-
-    # get the list of to-do's
-    chicagoWeatherHttp = requests.get('https://api.openweathermap.org/data/2.5/weather?q=chicago&appid=a8efcfe69258b521961181dac55090ca')
-    # transfor the response to json objects
-    chicagoWeather = chicagoWeatherHttp.json()
-    
-    return render(request, "pages/info/detailrest.html", {"chicagoWeather": chicagoWeather})
-
+#################################
+# RestAPI Data being diasplayed #
+#################################
 class RestAPI_DetailView(TemplateView):
-    model = Response
     template_name = 'pages/info/detailrest.html'
 
 
