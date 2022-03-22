@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import HomePageView, DetailView, CreateCBView, UpdateGCBView, DeleteCBView, HasVoted, AboutView, HasNotVoted, UpdateCBView, RestAPI_DetailView
+from .views import HomePageView, DetailView, CreateCBView, UpdateGCBView, DeleteCBView, HasVoted, AboutView, HasNotVoted, UpdateCBView
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),

@@ -48,6 +48,9 @@ class HasNotVoted(TemplateView):
 class AboutView(TemplateView):
     template_name = 'pages/info/about.html'
 
+class learnDjangoPage(TemplateView):
+    template_name = 'pages/info/learnDjango.html'
+
 
 
 
@@ -132,11 +135,7 @@ class DetailView(TemplateView):
         context = super(DetailView, self).get_context_data(**kwargs)
         return createContextDictionary()
 
-#################################
-# RestAPI Data being diasplayed #
-#################################
-class RestAPI_DetailView(TemplateView):
-    template_name = 'pages/info/detailrest.html'
+
 
 
 ##########

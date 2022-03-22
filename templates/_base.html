@@ -46,10 +46,9 @@
       {% else %}
         <a class="p-2 text-dark" href="{% url 'account_signup' %}">Update</a>
       {% endif %}
-
       <a class="p-2 text-dark" href="{% url 'delete' %}">Delete</a>
       <a class="p-2 text-dark" href="{% url 'about' %}">About</a>
-      {% comment %} <a class="theme-color-1 px-4" href="{% url 'vote' %}">Participate</a> {% endcomment %}
+
       <nav class="my-2 my-md-0 mr-md-3">
         {% if user.is_authenticated %}
         <ul class="navbar-nav ml-auto">
