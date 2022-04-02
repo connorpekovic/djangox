@@ -7,6 +7,7 @@ from django.db import models
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser
 
+#Add options to your user objects
 class CustomUserAdmin(UserAdmin):
     id = models.UUIDField(
         primary_key=True,

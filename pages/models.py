@@ -9,9 +9,11 @@ from django.dispatch import receiver
 
 
 # Create your models here.
-# A Response to the question of "Who built the pryamids?"
-class Response(models.Model):
 
+# Just one simple object for this project, it's the responce to the question
+# "What is your favorite season?"
+
+class Response(models.Model):
 
     CHOICE_LIST = (
         ('Spring', 'Spring'),

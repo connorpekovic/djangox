@@ -3,7 +3,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Response
 
-#These forms take in responce objects to Question from the user.
+#These forms create objects specified in the meta felid. We can change attributes on our form
+# from here in python. 
 class ResponseForm(forms.ModelForm):        
 
     # Crispy forms initializer
@@ -22,5 +23,8 @@ class ResponseForm(forms.ModelForm):
         fields = [
             'Question1',
         ]
+        
+        # Use this as the felids attribute when you want to the form to display
+        # inputs for all felids in a object. 
 
         #fields = '__all__' #Use all model fields

@@ -2,22 +2,10 @@ from .models import Response
 import requests # Rest
 import json # Rest
 
-#This function makes a REST API call to WeatherDB and returns the values in a Dictionary object to be used in the
-# context dictionary for the template. 
-def RestAPI_ReturnContextDictionary():
 
-    contextDictionary = {}
-
-    # Get the weather in Chicago
-    endpoint = 'https://weatherdbi.herokuapp.com/data/weather/chicago'
-    responce = requests.get(endpoint) #GET request
-    data = responce.json() #JSON -> Python Dictionary
-    chicagoTemp = data['currentConditions']['temp']['f'] #Query data from dictionary
-
-    contextDictionary = {
-        'chicagoTemp': chicagoTemp
-    }     
-    return contextDictionary
+# Description of this file: This file is a place for us to execute arbitrary python code 
+# in service of our View.py, but really it could be in service of any file. Mainly, I use it to
+# collect data for rendering in the view. 
 
 # This function returns a python dictionary object will serve as  the context dictionary for views.py 
 # The dictrionary contain percentages of the vote total each choice received. 
@@ -74,6 +62,8 @@ def createContextDictionary():
     return ContextDictionary
 
 
+
+
 # We need to calculate votes as a percentage users. If the vote count is 0 for a given response,
 # then just return 0 to prevent a divide by 0 error when calculating the percentage.
 #  parm1=Total votes per choice parm2=Total # of responces 
@@ -85,3 +75,24 @@ def Percentage(count, total_responses):
     percent = int(percent) # Return percentage as a whole number, for now.
     return percent
 
+
+ 
+
+#This function makes a REST API call in Python (server-side) to WeatherDB using the python requests library
+# and returns the values in a Python Dictionary. This dictionary objects is used as input to the legendary
+# view's attribute "Context Dictionary" which we can reference from the HTML. This is a good example of
+# consuming GET REST Api data server-side. I perfer to implement it client side in JavaScript.    
+def RestAPI_ReturnContextDictionary():
+
+    contextDictionary = {}
+
+    # Get the weather in Chicago
+    endpoint = 'https://weatherdbi.herokuapp.com/data/weather/chicago'
+    responce = requests.get(endpoint) #GET request
+    data = responce.json() #JSON -> Python Dictionary
+    chicagoTemp = data['currentConditions']['temp']['f'] #Query data from dictionary
+
+    contextDictionary = {
+        'chicagoTemp': chicagoTemp
+    }     
+    return contextDictionary
