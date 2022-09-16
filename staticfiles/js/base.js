@@ -1,4 +1,4 @@
-// import { months } from './utils.js'
+// import { LOCATIONS } from './utils.js'
 /* 
     Display the local postgres data in a chart using Chart.js.
     1. Gather the data
@@ -31,15 +31,15 @@ const setup = {
         label: '# of Votes',
         data: [Q1_A, Q1_B, Q1_C, Q1_D],
         backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(255, 206, 86, 0.2)'
+            'rgba(255, 205, 86, 0.4)',
+            'rgba(0, 128, 0, .2)',
+            'rgba(160, 82, 45, 0.4)',
+            'rgba(0, 0, 255, .2)'
         ],
         borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
+            'rgba(255, 205, 86, 1)',
+            'rgba(0, 128, 0, 1)',
+            'rgba(160, 82, 45, 1)',
             'rgba(54, 162, 235, 1)'
         ],
         borderWidth: 1
@@ -165,10 +165,11 @@ const context2 = document.getElementById('myChart2').getContext('2d');
 console.log("Chicago is ", tempChi, ".  Dekalb temp is ", tempDekalb)
 
 const labels2 = ['Chicago, IL', 'Dekalb, IL',  'Manchester, TN', 'Bloomington, IL', 'Okeechobee, FL'];
+// const labels = Utils.months({count: 7});
 const setup2 = {
   labels: labels2,
   datasets: [{
-    label: 'My First Dataset',
+    label: ['Weather Data'],
     data: [tempChi, tempDekalb, tempManchester, tempBloomington, tempOkeechobee ],
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
