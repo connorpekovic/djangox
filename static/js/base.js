@@ -104,7 +104,6 @@ async function getTempature(url) {
             K = data.main.temp
             F = ((K-273.15)*1.8)+32
             F = Math.round(F)
-            console.log('Tempature is ', F)
     
             return F  
         }

@@ -12,6 +12,33 @@
 
     <div class="container">
 
+        
+        <!-- Location -->
+        <div class="container"> 
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4" style="text-align: center;">
+                    <label for="weatherLocationInputID">
+                        <h3 class="mb-1"> Generate Weather Forcast </h3>
+                    </label>
+                    <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">Location</span>
+                    </div>
+                    <input type="text" class="form-control" id="weatherLocationInputID" aria-describedby="basic-addon3"> 
+
+                    <!-- The Javascript for this function is defined inline below. -->
+                    <button type="button" class="btn btn-primary" onclick="getLocalWeather()">Search</button>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div>
+                <!-- Where the weather is displayed -->
+                <h2 style="text-align: center ;" id="tempature"></h2>
+            </div>
+        </div>  
+
         <div class="row">
             <div class="col-md-4">
                 <!-- Call to action -->
@@ -36,6 +63,50 @@
             </div>
         </div>
     </div>
+
+    <script>
+        async function getLocalWeather() {
+            
+            var input = document.getElementById("weatherLocationInputID").value;
+            
+            /* Format the input */
+            input = input.toLowerCase();
+
+            /* Build the URL Query */
+            let hostnamePath = 'https://api.openweathermap.org/data/2.5/weather?q='
+            let appid = '&appid=a8efcfe69258b521961181dac55090ca'
+
+            let getLocalWeatherCall = hostnamePath.concat(input, appid);
+
+            /* The HTML Value element assignments will happen in the getTempature function */ 
+            /* because I am having a hard time */
+            getTempature(getLocalWeatherCall);
+        }
+
+        async function getTempature(getLocalWeatherCall) {
+    
+            // execute function, Storing response
+            const response = await fetch(getLocalWeatherCall);
+            console.log('Fetch initatiated')
+
+            // Storing data in form of JSON
+            var data = await response.json();
+        
+            if (response) {
+                let K, F = 0
+                K = data.main.temp
+                F = ((K-273.15)*1.8)+32
+                F = Math.round(F)
+                console.log('InlineJS: Tempature is ', F)
+
+                document.getElementById("tempature").innerHTML = F + "°F";
+
+                return F  
+            }
+
+} 
+
+    </script>
 
 {% endblock content %}
 
