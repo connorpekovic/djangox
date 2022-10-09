@@ -36,36 +36,34 @@
         </div>  
 
         <!-- Weather location output form.  -->
-        
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
+        <div id="weatherCardID" style="display: none;">
+            <div class="row" >
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header" id="LocationID"  style="text-align: center;">
+                            <!-- Location -->
+                        </div>
+                        <div class="card-body">
+                            
+                            <!-- <h5 class="card-title">Special title treatment</h5> 
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+                            
+                            <!-- Tempature -->
+                            <h2 style="text-align: center;" id="tempature"></h2>
 
-                <div class="card">
-                    <div class="card-header" id="LocationID"  style="text-align: center;">
-                      <!-- Location -->
+                            <!-- picture-->
+                            <div style="text-align: center">
+                            <img id ='weatherIcon'> 
+                            </div>
+                            
+                            <!-- Description -->
+                            <p class="card-text" style="text-align: center;" id="weatherDescriptionID"></p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                      
-                        <!-- <h5 class="card-title">Special title treatment</h5> 
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
-                      
-                      <!-- Tempature -->
-                      <h2 style="text-align: center;" id="tempature"></h2>
-
-                      <!-- picture-->
-                      <div style="text-align: center">
-                        <img id ='weatherIcon'> 
-                      </div>
-                        
-                      <!-- Description -->
-                      <p class="card-text" style="text-align: center;" id="weatherDescriptionID"></p>
-                      
-
-                    </div>
-                  </div>
+                </div>
+                <div class="col-md-4"></div>
             </div>
-            <div class="col-md-4"></div>
         </div>
 
         <!--  Vote on a season, Rest display. Early code.-->
@@ -162,10 +160,12 @@
                 console.log(getIconCall)
 
 
-
+                
+                document.getElementById("weatherCardID").style.display = "block";
                 document.getElementById("tempature").innerHTML = F + "°F";
                 document.getElementById("LocationID").innerHTML = workLocation;
                 document.getElementById("weatherDescriptionID").innerHTML = weatherDescription;
+                document.getElementById("weatherIcon").src = getIconCall; 
                 document.getElementById("weatherIcon").src = getIconCall; 
 
                 return F  
