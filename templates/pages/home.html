@@ -54,8 +54,14 @@
                       <h2 style="text-align: center;" id="tempature"></h2>
 
                       <!-- picture-->
-                      <div></div> 
+                      <div style="text-align: center">
+                        <img id ='weatherIcon'> 
+                      </div>
                         
+                      <!-- Description -->
+                      <p class="card-text" style="text-align: center;" id="weatherDescriptionID"></p>
+                      
+
                     </div>
                   </div>
             </div>
@@ -128,6 +134,7 @@
                 1. The tempature
                 2. Weather Main indicator
                 3. Weather Description
+                4. Icon indicator
             */
             if (response) {
 
@@ -139,16 +146,27 @@
                 console.log('InlineJS: Tempature is ', F)
 
                 // 2. Weather Main 
-                let mainData= data.weather[0].main
-                console.log('Main weather array: ', mainData)
+                let weatherMain= data.weather[0].main
+                console.log('Main weather array: ', weatherMain)
 
                 // 3. Weather Description
-                let mainDescription = data.weather[0].description
-                console.log('Description of weather data: ', mainDescription)
+                let weatherDescription = data.weather[0].description
+                console.log('Description of weather data: ', weatherDescription)
+
+                // 4. Icon indicator
+                let weatherIcon = data.weather[0].icon
+                console.log('Weather icon is: ', weatherIcon)
+                let hostAndBasePath = 'https://openweathermap.org/img/wn/';
+                let RestofString = '@2x.png'
+                let getIconCall = hostAndBasePath.concat(weatherIcon, RestofString)
+                console.log(getIconCall)
+
 
 
                 document.getElementById("tempature").innerHTML = F + "°F";
                 document.getElementById("LocationID").innerHTML = workLocation;
+                document.getElementById("weatherDescriptionID").innerHTML = weatherDescription;
+                document.getElementById("weatherIcon").src = getIconCall; 
 
                 return F  
             }
