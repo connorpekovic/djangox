@@ -38,9 +38,9 @@
         <!-- Weather location output form.  -->
         <div id="weatherCardID" style="display: none;">
             <div class="row" >
-                <div class="col-md-4"></div>
+                <div class="col-md-3"></div>
                 <!-- Summary Card-->
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="card">
                         <div class="card-header" id="LocationID"  style="text-align: center;">
                             <!-- Location -->
@@ -64,9 +64,10 @@
                     </div>
                 </div>
                 <!-- Windy Weather Map -->
-                <div class="col-md-4">
-                    <div id="windy"></div>
+                <div class="col-md-5">
+                    <div id="windy" style="width: 100%; height: autopx; position: relative;"></div>
                 </div>
+                <div class="col-md-1"></div>
             </div>
         </div>
 
@@ -202,10 +203,7 @@
                 const { map } = windyAPI;
                 // .map is instance of Leaflet map
 
-                L.popup()
-                    .setLatLng([50.4, 14.3])
-                    .setContent('Hello World')
-                    .openOn(map);
+
             });
 
 
