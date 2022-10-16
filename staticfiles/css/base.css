@@ -1,4 +1,14 @@
 
+/* Weather map controlls
+-------------------------------------------------- */
+#map { height: 180px; }
+
+
+/* Headder font controlls
+-------------------------------------------------- */
+.dark {
+  color: black;
+}
 
 
 /* Sticky footer styles
