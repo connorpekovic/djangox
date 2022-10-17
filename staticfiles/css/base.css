@@ -1,8 +1,9 @@
 
 /* Weather map controlls
 -------------------------------------------------- */
-#map { height: 180px; }
-
+#map {
+  height: 180px;
+}
 
 /* Headder font controlls
 -------------------------------------------------- */

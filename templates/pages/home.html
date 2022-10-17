@@ -37,7 +37,7 @@
 
         <!-- Weather location output form.  -->
         <div id="weatherCardID" style="display: none;">
-            <div class="row" >
+            <div class="row pb-3">
                 <div class="col-md-3"></div>
                 <!-- Summary Card-->
                 <div class="col-md-2">
@@ -64,11 +64,14 @@
                     </div>
                 </div>
                 <!-- Windy Weather Map -->
-                <div class="col-md-7">
-                    <div id="windy" style="width: 100%; height: autopx; position: relative;"></div>
+                <div class="col-md-5" >
+                    <div id="map"></div>
                 </div>
+                <div class="col-md-2"></div>
             </div>
         </div>
+
+        <hr>
 
         <!--  Vote on a season, Rest display. Early code.-->
         <div class="row">
@@ -99,8 +102,24 @@
     <!-- Javascript Coding Section -->
     <script>
 
-        let workLocation = ''
+        /*  leaflet.js */ 
+        var map = L.map('map').setView([42.2, -83.7], 10);
 
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+
+        /* OpenWeatherAPI Used to populate Local Wether Card. */
+        /*
+        Function name: getLocalWeather
+        Purpose: Build the string for the URL call to the openweatherapi for weather data, then passed
+                 the string to the getTempature function.
+        Input: User input of a city name where we want weather data from.
+        Output: Passed the URL for the REST Api call to getTeampture() defined direclty below. 
+        */
+        let workLocation = ''
         async function getLocalWeather() {
             
             var input = document.getElementById("weatherLocationInputID").value;
@@ -119,8 +138,15 @@
             /* The HTML Value element assignments will happen in the getTempature function */ 
             /* because I am having a hard time */
             getTempature(getLocalWeatherCall);
+            
         }
 
+        /*
+        Function name: getTempature
+        Purpose: Call REST API, parse JSON Data, pupulate HTML with the output, and refresh screen size.
+        Input: RestAPI URL
+        Output: Populating HTML with values and resizing the screen at the end for Leaflets.js.
+        */
         async function getTempature(getLocalWeatherCall) {
     
             // execute function, Storing response
@@ -138,6 +164,8 @@
                 2. Weather Main indicator
                 3. Weather Description
                 4. Icon indicator
+                5. Populate HTML Elements
+                6. Resize screen so Leaflet.js knows what size the screen will be.
             */
             if (response) {
 
@@ -164,8 +192,7 @@
                 let getIconCall = hostAndBasePath.concat(weatherIcon, RestofString)
                 console.log(getIconCall)
 
-
-                
+                // 5. Populate HTML Elements
                 document.getElementById("weatherCardID").style.display = "block";
                 document.getElementById("tempature").innerHTML = F + "°F";
                 document.getElementById("LocationID").innerHTML = workLocation;
@@ -173,39 +200,15 @@
                 document.getElementById("weatherIcon").src = getIconCall; 
                 document.getElementById("weatherIcon").src = getIconCall; 
 
+                /* 6. Resize screen so Leaflet.js knows what size the screen will be. */
+                setTimeout(function () {
+                    window.dispatchEvent(new Event('resize'));
+                }, 10);
+                console.log('Resize called')
+
                 return F  
             }
         }
-    
-            /* 
-            leaflet.js
-            // */
-
-            const options = {
-                // Required: API key
-                key: 'ATxQjoQuFhJvJHnjIaNSvct2n0Ofg6kb', // REPLACE WITH YOUR KEY !!!
-
-                // Put additional console output
-                verbose: true,
-
-                // Optional: Initial state of the map
-                lat: 50.4,
-                lon: 14.3,
-                zoom: 5,
-            };
-
-            // Initialize Windy API
-            windyInit(options, windyAPI => {
-                // windyAPI is ready, and contain 'map', 'store',
-                // 'picker' and other usefull stuff
-
-                const { map } = windyAPI;
-                // .map is instance of Leaflet map
-
-
-            });
-
-
     </script>
 
 {% endblock content %}

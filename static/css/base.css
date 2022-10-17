@@ -1,10 +1,8 @@
 
 /* Weather map controlls
 -------------------------------------------------- */
-
-#windy {
-  width: 100%;
-  height: 300px;
+#map {
+  height: 100%;
 }
 
 /* Headder font controlls
