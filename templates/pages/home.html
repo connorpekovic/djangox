@@ -102,14 +102,10 @@
     <!-- Javascript Coding Section -->
     <script>
 
-        /*  leaflet.js */ 
-        var map = L.map('map').setView([42.2, -83.7], 10);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
+        /* Global variable declaration section */
+        let workLocation = ''
+        let lat = 0
+        let lon = 0
 
         /* OpenWeatherAPI Used to populate Local Wether Card. */
         /*
@@ -119,7 +115,7 @@
         Input: User input of a city name where we want weather data from.
         Output: Passed the URL for the REST Api call to getTeampture() defined direclty below. 
         */
-        let workLocation = ''
+        
         async function getLocalWeather() {
             
             var input = document.getElementById("weatherLocationInputID").value;
@@ -161,6 +157,7 @@
             Numbers 2 and 3 will help determine what graphic we show.
 
                 1. The tempature
+                1A. Get longitude and lattitude.
                 2. Weather Main indicator
                 3. Weather Description
                 4. Icon indicator
@@ -175,6 +172,11 @@
                 F = ((K-273.15)*1.8)+32
                 F = Math.round(F)
                 console.log('InlineJS: Tempature is ', F)
+
+                // 1A. Get longitude and lattitude.
+                
+                lat = data.coord.lat
+                lon = data.coord.lon
 
                 // 2. Weather Main 
                 let weatherMain= data.weather[0].main
@@ -200,15 +202,299 @@
                 document.getElementById("weatherIcon").src = getIconCall; 
                 document.getElementById("weatherIcon").src = getIconCall; 
 
-                /* 6. Resize screen so Leaflet.js knows what size the screen will be. */
-                setTimeout(function () {
-                    window.dispatchEvent(new Event('resize'));
-                }, 10);
-                console.log('Resize called')
+                /* Prepare the leflets.js map */
+                console.log('Lat:', lat)
+                console.log('Lon', lon)
+
+                callMap()
 
                 return F  
             }
         }
+
+
+
+
+
+        
+        /*  leaflet.js */
+        async function callMap() {
+            // var map = L.map('map').setView([lat, lon], 10);
+
+            // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            //     maxZoom: 19,
+            //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            // }).addTo(map);
+
+            // /* 6. Resize screen so Leaflet.js knows what size the screen will be. */
+            // setTimeout(function () {
+            // window.dispatchEvent(new Event('resize'));
+            // }, 10);
+            // console.log('Resize called')
+
+
+
+            /*Radar*/
+            var map = L.map("map").setView([lat, lon], 7);
+
+            var osmAttribution =
+                    'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+            var leafletRadarAttribution =
+                    '<a href="https://github.com/rwev/leaflet-radar">Radar</a>';
+
+            L.tileLayer(
+                    "https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+                    {
+                            attribution: [
+                                    osmAttribution,
+                                    leafletRadarAttribution
+                            ].join(" | ")
+                    }
+            ).addTo(map);
+            L.control.radar({}).addTo(map);
+
+            /* 6. Resize screen so Leaflet.js knows what size the screen will be. */
+            setTimeout(function () {
+            window.dispatchEvent(new Event('resize'));
+            }, 10);
+            console.log('Resize called')
+
+
+
+        }
+
+
+
+
+
+
+        /* Leaflet radar */
+        L.Control.Radar = L.Control.extend({
+
+        NEXRAD_URL: `https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q.cgi`,
+        NEXRAD_LAYER: `nexrad-n0q-900913`,
+
+        isPaused: false,
+        timeLayerIndex: 0,
+        timeLayers: [],
+
+        options: {
+            position: `topright`,
+            opacity: 0.575,
+            zIndex: 200,
+            transitionMs: 750,
+            playHTML: `&#9658;`,
+            pauseHTML: `&#9616;`,
+        },
+
+        onRemove: function () {
+            L.DomUtil.remove(this.container);
+        },
+
+        onAdd: function (map) {
+            this.map = map;
+
+            // setup control container
+            this.container = L.DomUtil.create(`div`, "leaflet-radar");
+
+            L.DomEvent.disableClickPropagation(this.container);
+            L.DomEvent.on(this.container, `control_container`, function (e) {
+                L.DomEvent.stopPropagation(e);
+            });
+            L.DomEvent.disableScrollPropagation(this.container);
+
+            // add control elements within container
+            checkbox_div = L.DomUtil.create(
+                `div`,
+                `leaflet-radar-toggle`,
+                this.container
+            );
+
+            this.checkbox = document.createElement(`input`);
+            this.checkbox.id = `leaflet-radar-toggle`;
+            this.checkbox.type = `checkbox`;
+            this.checkbox.checked = false;
+            this.checkbox.onclick = () => this.toggle();
+
+            checkbox_div.appendChild(this.checkbox);
+
+            let checkbox_label = document.createElement(`span`);
+            checkbox_label.innerText = `Radar`;
+
+            checkbox_div.appendChild(checkbox_label);
+
+            let slider_div = L.DomUtil.create(
+                `div`,
+                `leaflet-radar-slider`,
+                this.container
+            );
+
+            this.slider = document.createElement(`input`);
+            this.slider.id = `leaflet-radar-slider`;
+            this.slider.type = `range`;
+            this.slider.min = 0;
+
+            slider_div.appendChild(this.slider);
+
+            this.timestamp_div = L.DomUtil.create(
+                `div`,
+                `leaflet-radar-timestamp`,
+                this.container
+            );
+
+            this.setDisabled(true);
+            this.isPaused = true;
+
+            return this.container;
+        },
+
+        hideLayerByIndex: function (index) {
+            this.timeLayers[index].tileLayer.setOpacity(0);
+            this.timestamp_div.innerHTML = ``;
+        },
+
+        showLayerByIndex: function (index) {
+            this.timeLayers[index].tileLayer.setOpacity(
+                this.options.opacity
+            );
+            this.timestamp_div.innerHTML = this.timeLayers[index].timestamp;
+        },
+
+        setDisabled: function (disabled) {
+            this.slider.disabled = disabled;
+            this.timestamp_div.innerText = ``;
+        },
+
+        toggle: function () {
+            if (!this.checkbox.checked) {
+                this.setDisabled(true);
+                this.removeLayers();
+                return;
+            }
+
+            this.setDisabled(false);
+
+            this.timeLayers = this.generateLayers();
+            this.addLayers(this.timeLayers);
+
+            this.slider.max = `${this.timeLayers.length - 1}`;
+
+            this.timeLayerIndex = 0;
+
+            this.isPaused = false;
+
+            this.slider.oninput = () => {
+
+                this.hideLayerByIndex(this.timeLayerIndex);
+                this.timeLayerIndex = +this.slider.value;
+                this.showLayerByIndex(this.timeLayerIndex);
+
+                this.isPaused = true;
+            };
+
+            this.setTransitionTimer();
+        },
+
+
+        setTransitionTimer: function () {
+            setTimeout(() => {
+                if (this.isPaused) {
+                    return;
+                }
+
+                this.timeLayers.forEach(timeLayer => {
+                    timeLayer.tileLayer.setOpacity(0);
+                    timeLayer.tileLayer.addTo(this.map);
+                });
+
+                if (this.checkbox.checked) {
+
+                    this.hideLayerByIndex(this.timeLayerIndex);
+                    this.incrementLayerIndex();
+                    this.showLayerByIndex(this.timeLayerIndex);
+
+                    this.slider.value = `${this.timeLayerIndex}`;
+
+                    this.setTransitionTimer();
+                } else {
+                    this.setDisabled(true);
+                    this.removeLayers();
+                }
+            }, this.options.transitionMs);
+        },
+
+        incrementLayerIndex: function () {
+            this.timeLayerIndex++;
+            if (this.timeLayerIndex > this.timeLayers.length - 1) {
+                this.timeLayerIndex = 0;
+            }
+        },
+
+        addLayers: function () {
+            this.timeLayers.forEach(timeLayer => {
+                timeLayer.tileLayer.setOpacity(0);
+                timeLayer.tileLayer.addTo(this.map);
+            });
+        },
+
+        removeLayers: function () {
+            this.timeLayers.forEach(timeLayer =>
+                timeLayer.tileLayer.removeFrom(this.map)
+            );
+            this.timeLayers = [];
+            this.timeLayerIndex = 0;
+        },
+
+        generateLayers: function () {
+            let timeLayers = [];
+
+            const TOTAL_INTERVALS = 10;
+            const INTERVAL_LENGTH_HRS = 5;
+
+            const currentTime = new Date();
+
+            for (let i = 0; i <= TOTAL_INTERVALS; i++) {
+
+                const timeDiffMins =
+                    TOTAL_INTERVALS * INTERVAL_LENGTH_HRS -
+                    INTERVAL_LENGTH_HRS * i;
+
+                const suffix = (function(time) {  
+                    switch(time) {
+                        case 0:
+                            return '';
+                        case 5:
+                            return '-m05m';
+                        default:
+                            return '-m' + time + 'm';
+                    }
+                    })(timeDiffMins);
+
+                const layerRequest = this.NEXRAD_LAYER + suffix;
+
+                const layer = L.tileLayer.wms(this.NEXRAD_URL, {
+                    layers: layerRequest,
+                    format: `image/png`,
+                    transparent: true,
+                    opacity: this.options.opacity,
+                    zIndex: this.options.zIndex
+                });
+
+                const timeString = new Date(
+                    currentTime.valueOf() - timeDiffMins * 60 * 1000
+                ).toLocaleTimeString();
+                timeLayers.push({
+                    timestamp: `${timeString} (-${timeDiffMins} min)`,
+                    tileLayer: layer
+                });
+            }
+            return timeLayers;
+        }
+        });
+
+        L.control.radar = function (options) {
+        return new L.Control.Radar(options);
+        };
     </script>
 
 {% endblock content %}
