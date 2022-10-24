@@ -3,6 +3,7 @@
     Display the local postgres data in a chart using Chart.js.
     1. Gather the data
     2. Call the Chart constructor. Settings are organized in JSON.
+    3. On the event of a page load, populate local weather report.
 */
 
 /* 
@@ -231,3 +232,18 @@ const config2 = {
 //Nice, simple constructor of a new Chart.js chart for our RestAPI consuming Chart.
 const chart2 = new Chart( context2, config2 );
 console.log('end of javascript')
+
+
+
+/*
+    3. On the event of a page load, populate local weather report.
+    Stragety source: https://www.peachpit.com/articles/article.aspx?p=1394321&seqNum=2
+*/
+
+console.log("Xbop");
+
+
+function onLoadFunct() {
+    console.log("Page load");
+    document.getElementById("weatherLocationInputID").value = "CHICAGO"; 
+  }
