@@ -169,7 +169,7 @@ const labels2 = ['Chicago, IL', 'Dekalb, IL',  'Manchester, TN', 'Bloomington, I
 const setup2 = {
   labels: labels2,
   datasets: [{
-    label: ['Weather Data'],
+    label: [''],
     data: [tempChi, tempDekalb, tempManchester, tempBloomington, tempOkeechobee ],
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',

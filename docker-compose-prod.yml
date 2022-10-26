@@ -15,7 +15,7 @@ services:
       - "DJANGO_DEBUG=False"
       - "DJANGO_SECRET_KEY=EMsbAEHl9FLidjlKzrd5AkkHAwfjrlLvOOmo4D1yX-_IcU5y2pc"
   db:
-    image: postgres:11
+    image: postgres:12
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
