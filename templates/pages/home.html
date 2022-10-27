@@ -88,17 +88,6 @@
                 <div style="padding-right: 2rem; padding-left: 2rem; background-color: #E9ECEF;  border-radius: 5px;">
                     {% include 'pages/info/detail.html' %}
                 </div>
-
-                <div class="jumbotron">
-                    <h1 class="display-5">What is your favorite season?</h1>
-                    <p class="lead">Tell us what is your favorite season.</p>
-                    <hr class="my-4">
-                    <p>Vote on your favorite season.</p>
-                    <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="{% url 'create' %}#" role="button">Vote Here</a>
-                    </p>
-                </div>
-                
             </div>
             
             <div class="col-md-4">
@@ -122,12 +111,12 @@
             getLocalWeather();
 
 
-            // const work = async () => {
-            // await sleep(1000)
-            //     document.getElementById("leaflet-radar-toggle").checked = true;
-            //     document.getElementById('leaflet-radar-toggle').click();
-            // }
-            // work()
+            const work = async () => {
+            await sleep(1000)
+                document.getElementById("leaflet-radar-toggle").checked = true;
+            }
+            work()
+            document.getElementById('leaflet-radar-toggle').click();
         }
 
         /* Global variable declaration section */
