@@ -15,7 +15,7 @@
                 <div class="col-md-4"></div>
                 <div class="col-md-4" style="text-align: center;">
                     <label for="weatherLocationInputID">
-                        <h3 class="mb-1"> Generate Weather Forcast </h3>
+                        <h3 class="mb-1 pt-2"> Generate Weather Forcast </h3>
                     </label>
                     <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -70,7 +70,7 @@
         <hr>
 
         <!--  Vote on a season, Rest display. Early code.-->
-        <div class="row">
+        <div class="row ">
             <!-- Call to action Jumbotron -->
             <div class="col-md-4">
                 <div class="jumbotron">
@@ -85,12 +85,26 @@
             </div>
             <!-- Pie chart -->
             <div class="col-md-4">
-                {% include 'pages/info/detail.html' %}
+                <div style="padding-right: 2rem; padding-left: 2rem; background-color: #E9ECEF;  border-radius: 5px;">
+                    {% include 'pages/info/detail.html' %}
+                </div>
+
+                <div class="jumbotron">
+                    <h1 class="display-5">What is your favorite season?</h1>
+                    <p class="lead">Tell us what is your favorite season.</p>
+                    <hr class="my-4">
+                    <p>Vote on your favorite season.</p>
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg" href="{% url 'create' %}#" role="button">Vote Here</a>
+                    </p>
+                </div>
+                
             </div>
             
-            <div class="col-md-4" style="position: relative;">
-                    
+            <div class="col-md-4">
+                    <div style="padding-right: 2rem; padding-left: 2rem; position: relative; background-color: #E9ECEF;  border-radius: 5px;">
                         {% include 'pages/info/detailrest.html' %}
+                    </div>
                 </div>
                 
             </div>
@@ -106,6 +120,14 @@
             document.getElementById("weatherLocationInputID").value = ""
             document.getElementById("weatherLocationInputID").value += "Ann Arbor";
             getLocalWeather();
+
+
+            // const work = async () => {
+            // await sleep(1000)
+            //     document.getElementById("leaflet-radar-toggle").checked = true;
+            //     document.getElementById('leaflet-radar-toggle').click();
+            // }
+            // work()
         }
 
         /* Global variable declaration section */
@@ -189,6 +211,7 @@
                 lat = data.coord.lat
                 lon = data.coord.lon
 
+
                 // 2. Weather Main 
                 let weatherMain= data.weather[0].main
                 console.log('Main weather array: ', weatherMain)
@@ -212,10 +235,6 @@
                 document.getElementById("weatherDescriptionID").innerHTML = weatherDescription;
                 document.getElementById("weatherIcon").src = getIconCall; 
                 document.getElementById("weatherIcon").src = getIconCall; 
-
-                /* Prepare the leflets.js map */
-                console.log('Lat:', lat)
-                console.log('Lon', lon)
 
                 callMap()
 
@@ -248,7 +267,9 @@
 
             /*Radar*/
 
-            /* Initalizion error solved, comment it up later
+            /*  If the map exist, nullify it because the next instruction initalizes a map
+                and we can only have 1 map active per web scession. 
+
             Source: https://github.com/Leaflet/Leaflet/issues/3962#issuecomment-384510881
             */
             var container = L.DomUtil.get('map');
@@ -256,13 +277,16 @@
             container._leaflet_id = null;
             }
 
+            // Initalize the map to the lattitude and longitude recieved from the OpenWeatherApi
             map = L.map("map").setView([lat, lon], 7);
 
+            // Build html values for attribution section on the bottom corner of the map.
             var osmAttribution =
                     'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
             var leafletRadarAttribution =
                     '<a href="https://github.com/rwev/leaflet-radar">Radar</a>';
 
+            // Add a layer to the map.
             L.tileLayer(
                     "https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png",
                     {
@@ -272,6 +296,11 @@
                             ].join(" | ")
                     }
             ).addTo(map);
+
+            L.marker([lat, lon]).addTo(map)
+            .bindPopup(workLocation)
+            .openPopup();   
+
             L.control.radar({}).addTo(map);
 
             /* 6. Resize screen so Leaflet.js knows what size the screen will be. */
