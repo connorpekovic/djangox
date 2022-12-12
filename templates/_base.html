@@ -27,38 +27,44 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
 
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+crossorigin=""/>
 
- <!-- Make sure you put this AFTER Leaflet's CSS -->
- <!-- <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-  <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script> -->
-
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
-  integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
-  crossorigin=""/>
-
-   <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <!-- Leaflet Javascript. Place after Leaflet's CSS -->
  <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
  integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
  crossorigin=""></script>
+
+ <!-- Google jQuery -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+ <!-- Google Maps Library -->
+ <!-- &callback=initMap might be able to be removed. -->
+ <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0uFb7hLDwMOtmohas8XJ_xw1eslWSZPw&libraries=places&callback=initMap">
+</script>
+
 
 {% endblock %}
 
 </head>
 
-<!-- background-color:#A1E6F3; -->
+<!-- background's are defined here -->
 <body onload="onLoadFunct()" style="background-image:url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/b3be1dae-3caa-4d45-be6c-3de586ba95e2/de3r7zn-7090fb4d-f1c3-4b49-80bf-1466522004f5.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2IzYmUxZGFlLTNjYWEtNGQ0NS1iZTZjLTNkZTU4NmJhOTVlMlwvZGUzcjd6bi03MDkwZmI0ZC1mMWMzLTRiNDktODBiZi0xNDY2NTIyMDA0ZjUuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.xF3I9eoK0RGtoSq1uzL5GE0F1O0EU-9uwKWFWYePU3o);">
+  
   <!-- Navigation element -->
-
   <main role="main">
 
-  <!-- Bootstrap 5 Navbar Take 5 --> <!--bg-light -->
+  <!-- Bootstrap 5 Navbar Take 5 --> 
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#1944CF">
     <div class="container-fluid">
       <a class="navbar-brand " href="{% url 'home' %}" style="text-align:center; color: white">Upwind Global <br> Weather Monitor</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <!-- The nav items are right aligned because of Bootstrap 5's d-flex flex-row-reverse classes-->
+      <!-- The nav items could be right aligned w/ d-flex flex-row-reverse classes, but aligning center is a challange.-->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -82,7 +88,7 @@
           <li class="nav-item">
             <a class="nav-link text-light" href="{% url 'delete' %}">Delete</a>
           </li>
-
+          <!-- Example of drop down navigation -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               About
@@ -90,7 +96,6 @@
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item text-dark" href="{% url 'about' %}">About this site</a></li>
               <li><a class="dropdown-item text-dark" href="https://github.com/connorpekovic/djangox">The source code</a></li>
-              <!-- <li><hr class="dropdown-divider"></li> -->
               <li><a class="dropdown-item text-dark" href="https://www.connorpek.com" target="_blank">About the author</a></li>
             </ul>
           </li>
@@ -108,6 +113,7 @@
             </div>
           </li>
           
+          <!-- Example navbar input -->
           <!-- <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -130,7 +136,7 @@
 </main>
 <!-- End of navigation item --> 
 
-  
+  <!-- Main website content -->
     {% block content %}
       <p>Default content...</p>
     {% endblock content %}

@@ -21,7 +21,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon3">Location</span>
                     </div>
-                    <input type="text" class="form-control" id="weatherLocationInputID" aria-describedby="basic-addon3"> 
+                    <!-- <input type="text" class="form-control" id="weatherLocationInputID" aria-describedby="basic-addon3"> -->
+                    <input type="text" class="form-control" id="search_input" placeholder="Type address..." />
 
                     <!-- The Javascript for this function is defined inline below. -->
                     <button type="button" class="btn btn-primary" onclick="getLocalWeather()">Search</button>
@@ -103,21 +104,39 @@
     <!-- Javascript Coding Section -->
     <script>
 
+        /* jQuery for Google Places API location autocomplete. */
+        var searchInput = 'search_input';
+ 
+        $(document).ready(function () {
+            var autocomplete;
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+                types: ['geocode'],
+                /*componentRestrictions: {
+                country: "USA"
+                }*/
+            });
+            
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var near_place = autocomplete.getPlace();
+            });
+        });
+
+
         /* This function is called my the onload attribtue of the body html element.*/
-        function onLoadFunct() {
-            console.log("Page load");
-            document.getElementById("weatherLocationInputID").value = ""
-            document.getElementById("weatherLocationInputID").value += "Ann Arbor";
-            getLocalWeather();
+        // function onLoadFunct() {
+        //     console.log("Page load");
+        //     document.getElementById("weatherLocationInputID").value = ""
+        //     document.getElementById("weatherLocationInputID").value += "Ann Arbor";
+        //     getLocalWeather();
 
 
-            const work = async () => {
-            await sleep(1000)
-                document.getElementById("leaflet-radar-toggle").checked = true;
-            }
-            work()
-            document.getElementById('leaflet-radar-toggle').click();
-        }
+        //     const work = async () => {
+        //     await sleep(1000)
+        //         document.getElementById("leaflet-radar-toggle").checked = true;
+        //     }
+        //     work()
+        //     document.getElementById('leaflet-radar-toggle').click();
+        // }
 
         /* Global variable declaration section */
         let workLocation = ''
@@ -135,7 +154,7 @@
         
         async function getLocalWeather() {
             
-            var input = document.getElementById("weatherLocationInputID").value;
+            var input = document.getElementById("search_input").value;
             
             /* Format the input */
             workLocation = input
