@@ -104,12 +104,27 @@
     <!-- Javascript Coding Section -->
     <script>
 
+    var searchInput = 'search_input';
+     
+    $(document).ready(function () {
+     var autocomplete;
+     autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+      types: ['geocode'],
+      /*componentRestrictions: {
+       country: "USA"
+      }*/
+     });
+      
+     google.maps.event.addListener(autocomplete, 'place_changed', function () {
+      var near_place = autocomplete.getPlace();
+     });
+    });
 
         /* This function is called my the onload attribtue of the body html element.*/
         // function onLoadFunct() {
         //     console.log("Page load");
         //     document.getElementById("search_input").value = ""
-        //     document.getElementById("search_input").value += "Ann Arbor";
+        //     document.getElementById("weatherLocationInputID").value += "Ann Arbor";
         //     getLocalWeather();
 
 
