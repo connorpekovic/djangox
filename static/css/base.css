@@ -1,3 +1,17 @@
+
+.viewing-tray {
+  background-color: #E9ECEF;  
+  border-radius: 5px;
+  margin-top: 3em;
+  padding-bottom: 2em;
+  padding-top: 1em;
+}
+
+.font-color-1 {
+  color: white;
+}
+
+
 /* Styles for Google Places API
  Source1: https://tutorial101.blogspot.com/2019/12/google-maps-javascript-api-with-places.html
  Source2: https://www.youtube.com/watch?v=Q_GraCZJRiQ

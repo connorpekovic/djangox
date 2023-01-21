@@ -3,11 +3,13 @@
     2. Safely pass data from the context rendered to the page by importing base.js and using |json_script  
 -->
 
-<!-- Frame the charts in HTML. Charts.js uses the <canvas> tag.-->
-<h3 style="text-align: center;">What is everyones favorite season?</h3>
+<div class="viewing-tray">
+    <!-- Frame the charts in HTML. Charts.js uses the <canvas> tag.-->
+    <h3 style="text-align: center;">What is everyones favorite season?</h3>
 
-<!-- Chart.js uses this HTML tag for their charts -->
-<canvas id="chart1" width="100" height="100"></canvas>
+    <!-- Chart.js uses this HTML tag for their charts -->
+    <canvas id="chart1" width="100" height="100"></canvas>
+</div>
 
 <!-- Example on how to privatley pass context data to the JavaScript name space. -->
 {% load static %}
